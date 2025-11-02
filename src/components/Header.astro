@@ -9,13 +9,8 @@ const locale = Astro.currentLocale as Lang;
 ---
 
 <!-- Navigation Bar -->
-<nav class="fixed top-0 left-0 right-0 z-50 px-8 py-6">
-  <div class="flex items-center justify-between">
-    <!-- Logo -->
-    <a href={getRelativeLocaleUrl(locale, "/")} class="custom-cursor-trigger text-white text-sm font-medium tracking-wide hover:opacity-70 transition-opacity">
-      Google Design
-    </a>
-    
+<nav class="fixed top-0 left-0 right-0 z-50 px-8 py-6 border-b border-white/10 bg-black">
+  <div class="flex items-center justify-end">
     <!-- Menu Button -->
     <button id="menuButton" class="text-white hover:opacity-70 transition-opacity">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
