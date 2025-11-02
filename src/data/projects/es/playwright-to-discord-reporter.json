@@ -1,0 +1,12 @@
+{
+	"title": "Playwright to discord reporter",
+	"slug": "/playwright-to-discord-reporter",
+	"description": "A simple playwright reporter.",
+	"cover": "",
+	"technologies": ["Typescript", "npm", "discord.js", "playwright"],
+	"github": "",
+	"demo": "",
+	"featured": false,
+	"order": 0,
+	"date": "2025-11-02T23:54:00"
+}

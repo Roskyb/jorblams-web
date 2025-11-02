@@ -50,4 +50,21 @@ const authors = defineCollection({
 	}),
 });
 
-export const collections = { blog, tags, categories, authors };
+const projects = defineCollection({
+	loader: glob({ pattern: "**/[^_]*.json", base: "./src/data/projects" }),
+	schema: ({ image }: SchemaContext) =>
+		z.object({
+			title: z.string(),
+			slug: z.string(),
+			description: z.string(),
+			cover: z.union([image(), z.string()]).optional(),
+			technologies: z.array(z.string()).optional(),
+			github: z.string().url().optional().or(z.literal("")),
+			demo: z.string().url().optional().or(z.literal("")),
+			featured: z.boolean().optional().default(false),
+			order: z.number().optional().default(0),
+			date: z.coerce.date(),
+		}),
+});
+
+export const collections = { blog, tags, categories, authors, projects };

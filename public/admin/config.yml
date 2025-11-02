@@ -21,7 +21,7 @@ public_folder: "src/assets/images" # The src attribute for uploaded media
 
 i18n:
   structure: 'multiple_folders'
-  locales: ['en', 'es', 'ar', 'ja', 'zh-cn']
+  locales: ['en', 'es',]
   default_locale: 'en'
 
 
@@ -153,3 +153,68 @@ collections:
         widget: 'markdown'
         label: 'Bio'
         i18n: true
+
+  - name: 'projects'
+    label: 'Projects'
+    label_singular: 'Project'
+    folder: src/data/projects
+    slug: '{{slug}}'
+    create: true
+    extension: json
+    i18n: true
+    fields:
+      - name: 'title'
+        widget: 'string'
+        label: 'Title'
+        i18n: true
+      - name: 'slug'
+        widget: 'string'
+        label: 'Slug'
+        i18n: 'duplicate'
+      - name: 'description'
+        widget: 'text'
+        label: 'Description'
+        i18n: true
+      - name: 'cover'
+        widget: 'image'
+        label: 'Cover Image'
+        i18n: 'duplicate'
+        required: false
+      - name: 'technologies'
+        widget: 'list'
+        label: 'Technologies'
+        i18n: 'duplicate'
+        required: false
+        field:
+          name: 'tech'
+          widget: 'string'
+          label: 'Technology'
+      - name: 'github'
+        widget: 'string'
+        label: 'GitHub URL'
+        required: false
+        i18n: 'duplicate'
+      - name: 'demo'
+        widget: 'string'
+        label: 'Demo URL'
+        required: false
+        i18n: 'duplicate'
+      - name: 'featured'
+        widget: 'boolean'
+        label: 'Featured'
+        default: false
+        i18n: 'duplicate'
+      - name: 'order'
+        widget: 'number'
+        label: 'Order'
+        required: false
+        value_type: int
+        min: 0
+        max: 100
+        step: 1
+        default: 0
+        i18n: 'duplicate'
+      - name: 'date'
+        widget: 'datetime'
+        label: 'Project Date'
+        i18n: 'duplicate'

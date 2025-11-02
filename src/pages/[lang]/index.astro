@@ -5,11 +5,21 @@ const t = useTranslations(Astro.currentLocale as Lang);
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 import { Image } from "astro:assets";
-import heroImageEn from "@/assets/en/hero.svg";
-import heroImageEs from "@/assets/es/hero.svg";
-import heroImageJa from "@/assets/ja/hero.svg";
+
+import { getCollection } from "astro:content";
 
 const locale = Astro.currentLocale as Lang;
+
+// Get projects filtered by locale and sorted by order/date
+const allProjects = await getCollection("projects");
+console.log(allProjects);
+const projects = allProjects.sort((a, b) => {
+	// Sort by order first, then by date (newest first)
+	if (a.data.order !== b.data.order) {
+		return (a.data.order || 0) - (b.data.order || 0);
+	}
+	return b.data.date.getTime() - a.data.date.getTime();
+});
 
 export const getStaticPaths = () =>
 	Object.keys(LOCALES).map((lang) => ({
@@ -40,7 +50,7 @@ export const getStaticPaths = () =>
       <div class="flex gap-4 mb-32">
         <a 
           href="#projects" 
-          class="custom-cursor-trigger px-8 py-4 rounded-full border-2 border-white bg-white text-black font-medium hover:bg-transparent hover:text-white transition-all duration-300"
+          class="z-50 custom-cursor-trigger px-8 py-4 rounded-full border-2  border-white bg-white text-black font-medium hover:bg-black hover:border-white hover:text-white transition-all duration-300"
         >
           {t("cta.work")}
         </a>
@@ -53,7 +63,7 @@ export const getStaticPaths = () =>
       </div>
 
       <!-- Skills Section -->
-      <div class="grid md:grid-cols-2 gap-12 mb-32">
+      <div class="grid md:grid-cols-2 gap-12 mb-20">
         <div>
           <h3 class="text-amber-200 text-sm font-medium mb-4 tracking-wide">{t("skills.development")}</h3>
           <ul class="space-y-2 text-gray-400">
@@ -77,26 +87,55 @@ export const getStaticPaths = () =>
       <!-- Featured Projects Preview -->
       <div id="projects" class="mb-32">
         <h2 class="text-4xl font-bold mb-12">{t("projects.title")}</h2>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div class="group cursor-pointer">
-            <div class="bg-neutral-900 rounded-lg aspect-video mb-4 overflow-hidden">
-              <div class="w-full h-full bg-gradient-to-br from-amber-200/20 to-transparent group-hover:scale-105 transition-transform duration-300"></div>
-            </div>
-            <h3 class="text-xl font-medium mb-2 group-hover:text-amber-200 transition-colors">{t("projects.one")}</h3>
-            <p class="text-gray-500 text-sm">{t("projects.one.desc")}</p>
+        {projects.length > 0 ? (
+          <div class="grid md:grid-cols-2 gap-8">
+            {projects.map((project) => (
+              <div class="group">
+                <div class="bg-neutral-900 rounded-lg aspect-video mb-4 overflow-hidden">
+                  {project.data.cover ? (
+                    <Image 
+                      src={project.data.cover} 
+                      width={800}
+                      height={450}
+                      alt={project.data.title}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div class="w-full h-full bg-linear-to-br from-amber-200/20 to-transparent group-hover:scale-105 transition-transform duration-300"></div>
+                  )}
+                </div>
+                <h3 class="text-xl font-medium mb-2 group-hover:text-amber-200 transition-colors">{project.data.title}</h3>
+                <p class="text-gray-500 text-sm mb-3">{project.data.description}</p>
+                {project.data.technologies && project.data.technologies.length > 0 && (
+                  <div class="flex flex-wrap gap-2 mb-3">
+                    {project.data.technologies.map((tech) => (
+                      <span class="text-xs px-2 py-1 bg-neutral-800 text-amber-200 rounded">{tech}</span>
+                    ))}
+                  </div>
+                )}
+                <div class="flex gap-4 text-sm">
+                  {project.data.github && project.data.github !== "" && (
+                    <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+                      GitHub
+                    </a>
+                  )}
+                  {project.data.demo && project.data.demo !== "" && (
+                    <a href={project.data.demo} target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+                      Demo
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-          <div class="group cursor-pointer">
-            <div class="bg-neutral-900 rounded-lg aspect-video mb-4 overflow-hidden">
-              <div class="w-full h-full bg-gradient-to-br from-amber-200/20 to-transparent group-hover:scale-105 transition-transform duration-300"></div>
-            </div>
-            <h3 class="text-xl font-medium mb-2 group-hover:text-amber-200 transition-colors">{t("projects.two")}</h3>
-            <p class="text-gray-500 text-sm">{t("projects.two.desc")}</p>
-          </div>
-        </div>
-      </div>
+        ) : (
+          <p class="text-gray-500">{t({ en: "No projects yet. Check back soon!", es: "Aún no hay proyectos. ¡Vuelve pronto!" })}</p>
+        )}
 
       <!-- Contact Section -->
-      <div class="pb-20">
+
+    </div>
+          <div class="pb-20">
         <h2 class="text-4xl font-bold mb-8">{t("contact.title")}</h2>
         <p class="text-gray-400 mb-8 max-w-xl">
           {t("contact.description")}
@@ -113,7 +152,6 @@ export const getStaticPaths = () =>
           </a>
         </div>
       </div>
-    </div>
   </main>
 
 </Layout>
