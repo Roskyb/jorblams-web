@@ -18,16 +18,111 @@ export const getStaticPaths = () =>
 ---
 
 <Layout>
-  <!-- Main Content Area -->
-  <main class="min-h-screen bg-black text-white pt-32 px-8">
-    <h1 class="text-6xl font-bold mb-8">
-      True Design Is<br />
-      Better Than<br />
-      New Design
-    </h1>
-    <p class="text-gray-400 max-w-md">
-      David Reinfort discusses how individual perspective is the real driver of a design practice.
-    </p>
+  <!-- Hero Section -->
+  <main class="min-h-screen bg-black text-white pt-32 px-8 md:px-16 lg:px-24">
+    <div class="max-w-6xl mx-auto">
+      <!-- Introduction -->
+      <div class="mb-20">
+        <p class="text-amber-200 text-sm font-medium mb-4 tracking-wide">{t("greeting").toUpperCase()}</p>
+        <h1 class="text-7xl md:text-8xl font-bold mb-6 leading-tight">
+          Jorge<br />
+          Blanco
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mb-8">
+          {t("role")}
+        </p>
+        <p class="text-base text-gray-500 max-w-xl leading-relaxed">
+          {t("intro")}
+        </p>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="flex gap-4 mb-32">
+        <a 
+          href={getRelativeLocaleUrl(locale, "/blog")} 
+          class="custom-cursor-trigger px-8 py-4 rounded-full border-2 border-white bg-white text-black font-medium hover:bg-transparent hover:text-white transition-all duration-300"
+        >
+          {t("cta.work")}
+        </a>
+        <a 
+          href={getRelativeLocaleUrl(locale, "/about")} 
+          class="z-50 custom-cursor-trigger px-8 py-4 rounded-full border-2 border-white bg-transparent text-white font-medium hover:bg-white hover:text-black transition-all duration-300"
+        >
+          {t("cta.about")}
+        </a>
+      </div>
+
+      <!-- Skills Section -->
+      <div class="grid md:grid-cols-3 gap-12 mb-32">
+        <div>
+          <h3 class="text-amber-200 text-sm font-medium mb-4 tracking-wide">{t("skills.development")}</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li>React & Next.js</li>
+            <li>TypeScript</li>
+            <li>Node.js</li>
+            <li>Astro</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-amber-200 text-sm font-medium mb-4 tracking-wide">{t("skills.design")}</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li>UI/UX Design</li>
+            <li>Prototyping</li>
+            <li>Design Systems</li>
+            <li>Branding</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-amber-200 text-sm font-medium mb-4 tracking-wide">{t("skills.tools")}</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li>Figma</li>
+            <li>Git & GitHub</li>
+            <li>VS Code</li>
+            <li>Tailwind CSS</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Featured Projects Preview -->
+      <div class="mb-32">
+        <h2 class="text-4xl font-bold mb-12">{t("projects.title")}</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="group cursor-pointer">
+            <div class="bg-neutral-900 rounded-lg aspect-video mb-4 overflow-hidden">
+              <div class="w-full h-full bg-gradient-to-br from-amber-200/20 to-transparent group-hover:scale-105 transition-transform duration-300"></div>
+            </div>
+            <h3 class="text-xl font-medium mb-2 group-hover:text-amber-200 transition-colors">{t("projects.one")}</h3>
+            <p class="text-gray-500 text-sm">{t("projects.one.desc")}</p>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="bg-neutral-900 rounded-lg aspect-video mb-4 overflow-hidden">
+              <div class="w-full h-full bg-gradient-to-br from-amber-200/20 to-transparent group-hover:scale-105 transition-transform duration-300"></div>
+            </div>
+            <h3 class="text-xl font-medium mb-2 group-hover:text-amber-200 transition-colors">{t("projects.two")}</h3>
+            <p class="text-gray-500 text-sm">{t("projects.two.desc")}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="pb-20">
+        <h2 class="text-4xl font-bold mb-8">{t("contact.title")}</h2>
+        <p class="text-gray-400 mb-8 max-w-xl">
+          {t("contact.description")}
+        </p>
+        <div class="flex gap-6">
+          <a href="mailto:jorge@example.com" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+            jorge@example.com
+          </a>
+          <a href="https://github.com/jorge" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/jorge" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
   </main>
 
 </Layout>
