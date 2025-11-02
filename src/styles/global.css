@@ -1,6 +1,12 @@
 @import "tailwindcss";
+@import "@fontsource-variable/figtree";
+
 * {
 	cursor: none !important;
+}
+
+body {
+	font-family: "Figtree Variable", sans-serif;
 }
 
 .custom-cursor {

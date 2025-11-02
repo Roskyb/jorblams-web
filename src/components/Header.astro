@@ -1,54 +1,118 @@
 ---
 // Header & Navigation UI displayed on each page.
 
-import { Image } from "astro:assets";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import LocaleSelect from "@/components/i18n/LocaleSelect.astro";
 import { type Lang, useTranslations } from "@/i18n";
 const t = useTranslations(Astro.currentLocale as Lang);
 
-import AstroImage from "@/assets/astro-logo.svg";
-
 const locale = Astro.currentLocale as Lang;
-
-const isActive = (path: string) =>
-	getRelativeLocaleUrl(locale, path) === Astro.url.pathname;
 ---
 
-<header class="w-[600px] mx-auto">
-  <LocaleSelect />
+<!-- Navigation Bar -->
+<nav class="fixed top-0 left-0 right-0 z-50 px-8 py-6">
+  <div class="flex items-center justify-between">
+    <!-- Logo -->
+    <a href={getRelativeLocaleUrl(locale, "/")} class="custom-cursor-trigger text-white text-sm font-medium tracking-wide hover:opacity-70 transition-opacity">
+      Google Design
+    </a>
+    
+    <!-- Menu Button -->
+    <button id="menuButton" class="text-white hover:opacity-70 transition-opacity">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+</nav>
 
-  <nav class="">
-    <ul>
-      <li>
-        <a
-          href={getRelativeLocaleUrl(locale, "/setup")}
-          class={isActive("/setup") ? "active" : null}
-        >
-          {t({ ja: "設定", en: "Setup", "zh-cn": "设置", ar: "إعداد" })}
-        </a>
-      </li>
+<!-- Drawer Overlay -->
+<div id="drawerOverlay" class="fixed inset-0 bg-black/50 z-60 opacity-0 pointer-events-none transition-opacity duration-300"></div>
 
-      <li>
-        <a
-          href={getRelativeLocaleUrl(locale, "/blog")}
-          class={isActive("/blog") ? "active" : null}
-        >
-          {t({ en: "Blog", es: "Blog" })}
-        </a>
-      </li>
+<!-- Drawer Menu -->
+<div id="drawer" class="fixed top-0 right-0 h-full w-full md:w-1/2 bg-neutral-900 z-70 transform translate-x-full transition-transform duration-300 ease-in-out">
+  <div class="flex flex-col h-full p-8">
+    <!-- Close Button -->
+    <div class="flex justify-end mb-12">
+      <button id="closeButton" class="text-white hover:opacity-70 transition-opacity">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
 
-      <li>
-        <a
-          href={getRelativeLocaleUrl(locale, "/about")}
-          class={isActive("/about") ? "active" : null}
-        >
-          {t({ en: "about", es: "Inicio" })}
-        </a>
-      </li>
+    <!-- Menu Links -->
+    <nav class="flex flex-col gap-6">
+      <a href={getRelativeLocaleUrl(locale, "/about")} class="text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
+        {t({ en: "About", es: "Acerca de" })}
+      </a>
+      <a href={getRelativeLocaleUrl(locale, "/blog")} class="text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
+        {t({ en: "Blog", es: "Blog" })}
+      </a>
+      <a href={getRelativeLocaleUrl(locale, "/setup")} class="text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
+        {t({ en: "Setup", es: "Configuración" })}
+      </a>
+    </nav>
 
+    <!-- Footer Section -->
+    <div class="mt-auto pt-12">
+      <div class="grid grid-cols-3 gap-8 text-sm">
+        <div>
+          <h3 class="text-white font-medium mb-4">Google Design</h3>
+          <p class="text-gray-400 text-xs leading-relaxed">
+            Google Design is an editorial platform about design at Google.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-white font-medium mb-4">Discover</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">Material Design</a></li>
+            <li><a href="#" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">Google Fonts</a></li>
+            <li><a href="#" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">The Keyword</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-medium mb-4">Connect</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">Instagram</a></li>
+            <li><a href="#" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">YouTube</a></li>
+            <li><a href="#" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">X</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    </ul>
-  </nav>
-</header>
+<script>
+  // Drawer Menu
+  const menuButton = document.getElementById('menuButton');
+  const closeButton = document.getElementById('closeButton');
+  const drawer = document.getElementById('drawer');
+  const drawerOverlay = document.getElementById('drawerOverlay');
+
+  function openDrawer() {
+    drawer?.classList.remove('translate-x-full');
+    drawerOverlay?.classList.remove('opacity-0', 'pointer-events-none');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    drawer?.classList.add('translate-x-full');
+    drawerOverlay?.classList.add('opacity-0', 'pointer-events-none');
+    document.body.style.overflow = '';
+  }
+
+  menuButton?.addEventListener('click', openDrawer);
+  closeButton?.addEventListener('click', closeDrawer);
+  drawerOverlay?.addEventListener('click', closeDrawer);
+
+  // Close drawer on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeDrawer();
+    }
+  });
+</script>
 

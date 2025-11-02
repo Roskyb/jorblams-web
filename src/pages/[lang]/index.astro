@@ -18,16 +18,50 @@ export const getStaticPaths = () =>
 ---
 
 <Layout>
-<div class="flex gap-3">
-  <!-- Button -->
-  <button class="custom-cursor-trigger z-50 px-6 py-2.5  rounded-full border-2 border-white bg-transparent text-white font-medium hover:bg-white hover:text-black transition-all duration-300 ease-in-out">
-    Conversations
-  </button>
-  
-  <!-- Button -->
-  <button class="custom-cursor-trigger px-6 py-2.5  rounded-full border-2 border-white bg-transparent text-white font-medium hover:bg-white hover:text-black transition-all duration-300 ease-in-out">
-    UX
-  </button>
-</div>
+  <!-- Main Content Area -->
+  <main class="min-h-screen bg-black text-white pt-32 px-8">
+    <h1 class="text-6xl font-bold mb-8">
+      True Design Is<br />
+      Better Than<br />
+      New Design
+    </h1>
+    <p class="text-gray-400 max-w-md">
+      David Reinfort discusses how individual perspective is the real driver of a design practice.
+    </p>
+  </main>
 
 </Layout>
+
+<style is:global>
+  * {
+    cursor: none !important;
+  }
+  
+  .custom-cursor {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: white;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                border-radius 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+  }
+  
+  .custom-cursor.morphing {
+    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                border-radius 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    mix-blend-mode: normal;
+    background-color: white;
+    border: none;
+  }
+</style>
+
+
