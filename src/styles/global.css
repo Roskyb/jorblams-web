@@ -1,22 +1,26 @@
 @import "tailwindcss";
 @import "@fontsource-variable/figtree";
 
-* {
-	cursor: none !important;
-}
-
 body {
 	font-family: "Figtree Variable", sans-serif;
 }
 
+html {
+	scroll-behavior: smooth !important;
+}
+
+* {
+	cursor: none !important;
+}
+
 .custom-cursor {
 	position: fixed;
-	width: 24px;
-	height: 24px;
+	width: 36px;
+	height: 36px;
 	border-radius: 50%;
 	background-color: white;
 	pointer-events: none;
-	z-index: -1;
+	z-index: 0;
 	transform: translate(-50%, -50%);
 	mix-blend-mode: difference;
 	transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1), height 0.2s

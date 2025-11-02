@@ -39,7 +39,7 @@ export const getStaticPaths = () =>
       <!-- CTA Buttons -->
       <div class="flex gap-4 mb-32">
         <a 
-          href={getRelativeLocaleUrl(locale, "/blog")} 
+          href="#projects" 
           class="custom-cursor-trigger px-8 py-4 rounded-full border-2 border-white bg-white text-black font-medium hover:bg-transparent hover:text-white transition-all duration-300"
         >
           {t("cta.work")}
@@ -53,23 +53,14 @@ export const getStaticPaths = () =>
       </div>
 
       <!-- Skills Section -->
-      <div class="grid md:grid-cols-3 gap-12 mb-32">
+      <div class="grid md:grid-cols-2 gap-12 mb-32">
         <div>
           <h3 class="text-amber-200 text-sm font-medium mb-4 tracking-wide">{t("skills.development")}</h3>
           <ul class="space-y-2 text-gray-400">
-            <li>React & Next.js</li>
-            <li>TypeScript</li>
-            <li>Node.js</li>
+            <li>Angular</li>
+            <li>NestJS</li>
+            <li>TypeScript <span class="text-amber-200">💛</span></li>
             <li>Astro</li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-amber-200 text-sm font-medium mb-4 tracking-wide">{t("skills.design")}</h3>
-          <ul class="space-y-2 text-gray-400">
-            <li>UI/UX Design</li>
-            <li>Prototyping</li>
-            <li>Design Systems</li>
-            <li>Branding</li>
           </ul>
         </div>
         <div>
@@ -84,7 +75,7 @@ export const getStaticPaths = () =>
       </div>
 
       <!-- Featured Projects Preview -->
-      <div class="mb-32">
+      <div id="projects" class="mb-32">
         <h2 class="text-4xl font-bold mb-12">{t("projects.title")}</h2>
         <div class="grid md:grid-cols-2 gap-8">
           <div class="group cursor-pointer">
@@ -111,13 +102,13 @@ export const getStaticPaths = () =>
           {t("contact.description")}
         </p>
         <div class="flex gap-6">
-          <a href="mailto:jorge@example.com" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
-            jorge@example.com
+          <a href="mailto:jorge.blanco.gil.00@gmail.com" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+            jorge.blanco.gil.00@gmail.com
           </a>
-          <a href="https://github.com/jorge" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+          <a href="https://github.com/roskyb" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
             GitHub
           </a>
-          <a href="https://linkedin.com/in/jorge" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+          <a href="https://www.linkedin.com/in/jorge-blanco-gil-b715182a6/" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
             LinkedIn
           </a>
         </div>
@@ -126,37 +117,3 @@ export const getStaticPaths = () =>
   </main>
 
 </Layout>
-
-<style is:global>
-  * {
-    cursor: none !important;
-  }
-  
-  .custom-cursor {
-    position: fixed;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: white;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    mix-blend-mode: difference;
-    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                border-radius 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 1;
-  }
-  
-  .custom-cursor.morphing {
-    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                border-radius 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    mix-blend-mode: normal;
-    background-color: white;
-    border: none;
-  }
-</style>
-
-
