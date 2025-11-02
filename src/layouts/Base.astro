@@ -83,7 +83,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <LocaleSuggest />
     <Header />
 
-    <main class="l-main l-content">
+    <main class="">
       <slot />
     </main>
 
@@ -91,21 +91,55 @@ const localeDescription = description || t(SITE_DESCRIPTION);
 
     { import.meta.env.DEV && <style>:root { scroll-behavior: auto }</style> }
 
-    <script>
-      let lastScroll = window.scrollY;
-      const header = document.querySelector('.l-header');
 
-      window.addEventListener('scroll', () => {
-        const currentScroll = window.scrollY;
-        if (currentScroll > lastScroll && currentScroll > 100) {
-          // Scrolling down & past 100px
-          header?.classList.add('hidden');
-        } else {
-          // Scrolling up
-          header?.classList.remove('hidden');
-        }
-        lastScroll = currentScroll;
-      });
-    </script>
+
+<div class="custom-cursor"></div>
+
+
+<script>
+  const cursor: HTMLElement | null = document.querySelector('.custom-cursor');
+  const triggers = document.querySelectorAll('.custom-cursor-trigger');
+  let isHovering = false;
+  let currentButton = null;
+  
+  document.addEventListener('mousemove', (e) => {
+    if (cursor && !isHovering) {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    }
+  });
+  
+  triggers.forEach(trigger => {
+    trigger.addEventListener('mouseenter', (e) => {
+      isHovering = true;
+      currentButton = e.target;
+      
+      const rect = trigger.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      cursor?.classList.add('morphing');
+      if (cursor) {
+        cursor.style.transition = 'width 0.2s cubic-bezier(0.4, 0, 0.2, 1), height 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.2s cubic-bezier(0.4, 0, 0.2, 1), left 0.2s cubic-bezier(0.4, 0, 0.2, 1), top 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+        cursor.style.left = centerX + 'px';
+        cursor.style.top = centerY + 'px';
+        cursor.style.width = rect.width + 'px';
+        cursor.style.height = rect.height + 'px';
+        cursor.style.borderRadius = '9999px';
+      }
+    });
+    
+    trigger.addEventListener('mouseleave', () => {
+      isHovering = false;
+      currentButton = null;
+      cursor?.classList.remove('morphing');
+      if (cursor) {
+        cursor.style.transition = 'width 0.2s cubic-bezier(0.4, 0, 0.2, 1), height 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+        cursor.style.width = '24px';
+        cursor.style.height = '24px';
+      }
+    });
+  });
+</script>
   </body>
 </html>
