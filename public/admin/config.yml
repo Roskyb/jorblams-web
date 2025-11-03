@@ -65,7 +65,6 @@ collections:
         widget: 'image'
         label: 'Cover'
         i18n: 'duplicate'
-        default: 'src/assets/images/blog-placeholder-1.avif'
       - name: 'tags'
         widget: 'relation'
         collection: 'tags'
