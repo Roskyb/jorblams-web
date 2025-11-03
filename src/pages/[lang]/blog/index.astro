@@ -36,40 +36,59 @@ export const getStaticPaths = () =>
         </p>
       </div>
 
-      <!-- Posts Grid -->
+      <!-- Posts List -->
       {posts.length > 0 ? (
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
           {posts.map((post) => {
             const [, ...id] = post.id.split("/");
             const postUrl = `/${locale}/blog/${id.join("/")}/`;
             
             return (
               <article class="group">
-                <a href={postUrl} class="block">
+                <a href={postUrl} class="flex flex-col md:flex-row gap-4 items-start">
+                  <!-- Text Content (Left) -->
+                  <div class="flex-1">
+                    <time class="text-xs text-amber-200 font-medium">
+                      {post.data.date.toLocaleDateString(locale, { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                    </time>
+                    <h2 class="text-2xl md:text-3xl font-medium mt-2 mb-3 group-hover:text-amber-200 transition-colors">
+                      {post.data.title}
+                    </h2>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-4">
+                      {post.data.description}
+                    </p>
+                    
+                    {/* Tags */}
+                    {post.data.tags && post.data.tags.length > 0 && (
+                      <div class="flex flex-wrap gap-2">
+                        {post.data.tags.map((tag: any) => {
+                          const tagName = tag.id.split('/').pop();
+                          return (
+                            <span class="text-xs px-3 py-1 rounded-full border border-white bg-transparent text-white">
+                              {tagName}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  <!-- Image (Right) -->
                   {post.data.cover && (
-                    <div class="aspect-video mb-4 overflow-hidden rounded-lg bg-neutral-900">
+                    <div class="w-full md:w-64 aspect-square overflow-hidden transition-all duration-200 ease-in-out group-hover:rounded-[50%]">
                       <Image 
                         src={post.data.cover} 
                         alt={post.data.title}
-                        width={640}
-                        height={360}
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        width={400}
+                        height={400}
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
                       />
                     </div>
                   )}
-                  <time class="text-xs text-amber-200 font-medium">
-                    {post.data.date.toLocaleDateString(locale, { 
-                      year: 'numeric', 
-                      month: 'long', 
-                      day: 'numeric' 
-                    })}
-                  </time>
-                  <h2 class="text-xl font-medium mt-2 mb-3 group-hover:text-amber-200 transition-colors">
-                    {post.data.title}
-                  </h2>
-                  <p class="text-gray-500 text-sm line-clamp-3">
-                    {post.data.description}
-                  </p>
                 </a>
               </article>
             );
