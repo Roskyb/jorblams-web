@@ -49,15 +49,15 @@ export const getStaticPaths = () =>
       <div class="flex gap-4 mb-32">
         <a 
           href="#projects" 
-          class="z-50 custom-cursor-trigger px-8 py-4 rounded-full border-2  border-white bg-white text-black font-medium hover:bg-black hover:border-white hover:text-white transition-all duration-300"
+          class="custom-cursor-trigger btn-trigger btn-primary z-50"
         >
-          {t("cta.work")}
+          <span class="relative z-10">{t("cta.work")}</span>
         </a>
         <a 
           href={getRelativeLocaleUrl(locale, "/about")} 
-          class="z-50 custom-cursor-trigger px-8 py-4 rounded-full border-2 border-white bg-transparent text-white font-medium hover:bg-white hover:text-black transition-all duration-300"
+          class="custom-cursor-trigger btn-trigger btn-secondary z-50"
         >
-          {t("cta.about")}
+          <span class="relative z-10">{t("cta.about")}</span>
         </a>
       </div>
 

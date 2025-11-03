@@ -39,14 +39,14 @@ const locale = Astro.currentLocale as Lang;
 
     <!-- Menu Links -->
     <nav class="flex flex-col gap-6">
-      <a href={getRelativeLocaleUrl(locale, "/about")} class="text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
+      <a href={getRelativeLocaleUrl(locale, "/")} class="menu-link text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
+        {t({ en: "Home", es: "Inicio" })}
+      </a>
+      <a href={getRelativeLocaleUrl(locale, "/about")} class="menu-link text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
         {t({ en: "About", es: "Acerca de" })}
       </a>
-      <a href={getRelativeLocaleUrl(locale, "/blog")} class="text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
+      <a href={getRelativeLocaleUrl(locale, "/blog")} class="menu-link text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
         {t({ en: "Blog", es: "Blog" })}
-      </a>
-      <a href={getRelativeLocaleUrl(locale, "/setup")} class="text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
-        {t({ en: "Setup", es: "Configuración" })}
       </a>
     </nav>
 
@@ -111,3 +111,14 @@ const locale = Astro.currentLocale as Lang;
   });
 </script>
 
+<style>
+  .menu-link {
+    font-weight: 500;
+    transition: font-weight 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .menu-link:hover {
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+</style>
