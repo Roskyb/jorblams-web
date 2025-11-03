@@ -1,22 +1,18 @@
 ---
-import { Image } from "astro:assets";
-import { getCollection, getEntries, getEntry } from "astro:content";
-import PageHeadline from "@/components/PageHeadline.astro";
+import { getCollection } from "astro:content";
 import { LOCALES, type Lang, useTranslations } from "@/i18n";
 import Layout from "@/layouts/Base.astro";
-
+import { Image } from "astro:assets";
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
 
 const posts = (await getCollection("blog"))
-	.filter((post) => post.id.split("/")[0] === locale)
-	.sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+	.filter((post) => post.id.split("/")[0] === locale && !post.data.draft)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
+console.log(posts.at(0)?.data.cover);
 const title = t({
-	ja: "ブログ",
 	en: "Blog",
-	"zh-cn": "博客",
-	ar: "مدونة",
 	es: "Blog",
 });
 
@@ -27,64 +23,66 @@ export const getStaticPaths = () =>
 ---
 
 <Layout {title}>
-  <PageHeadline {title} />
+  <main class="min-h-screen bg-black text-white pt-32 px-8 md:px-16 lg:px-24 pb-20">
+    <div class="max-w-6xl mx-auto">
+      <!-- Page Title -->
+      <div class="mb-16">
+        <h1 class="text-6xl md:text-7xl font-bold mb-4">{title}</h1>
+        <p class="text-gray-400 text-lg">
+          {t({
+            en: "Thoughts, tutorials, and insights about web development",
+            es: "Reflexiones, tutoriales y conocimientos sobre desarrollo web",
+          })}
+        </p>
+      </div>
 
-  <p>
-    {
-      t({
-        ja: "ブログやニュースコンテンツを管理したい場合のサンプルです。Astroのコンテンツコレクションを利用しています。",
-        en: "A sample for managing blog or news content. It uses Astro's content collection.",
-        "zh-cn": "用于管理博客或新闻内容的示例。它使用了Astro的内容集合。",
-        ar: "عينة لإدارة محتوى المدونة أو الأخبار. يستخدم مجموعة محتويات Astro.",
-        es: "Un ejemplo para gestionar contenido de blog o noticias. Utiliza la colección de contenido de Astro.",
-      })
-    }
-  </p>
-
-  <p>
-    <a
-      href={`https://docs.astro.build/${Astro.currentLocale}/guides/content-collections/`}
-      target="_blank"
-    >
-      Content Collection | Astro Docs
-      <span class="material-icons-sharp dir"> open_in_new </span>
-    </a>
-  </p>
-
-  <ul>
-    {
-      posts.map((post) => {
-        const [, ...id] = post.id.split("/");
-        return (
-          <li>
-            <a href={`/${locale}/blog/${id.join("/")}/`}>
-              {post.data.cover && (
-                <Image src={post.data.cover} alt={post.data.title} />
-              )}
-              <h2>{post.data.title}</h2>
-            </a>
-          </li>
-        );
-      })
-    }
-  </ul>
+      <!-- Posts Grid -->
+      {posts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => {
+            const [, ...id] = post.id.split("/");
+            const postUrl = `/${locale}/blog/${id.join("/")}/`;
+            
+            return (
+              <article class="group">
+                <a href={postUrl} class="block">
+                  {post.data.cover && (
+                    <div class="aspect-video mb-4 overflow-hidden rounded-lg bg-neutral-900">
+                      <Image 
+                        src={post.data.cover} 
+                        alt={post.data.title}
+                        width={640}
+                        height={360}
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+                  <time class="text-xs text-amber-200 font-medium">
+                    {post.data.date.toLocaleDateString(locale, { 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </time>
+                  <h2 class="text-xl font-medium mt-2 mb-3 group-hover:text-amber-200 transition-colors">
+                    {post.data.title}
+                  </h2>
+                  <p class="text-gray-500 text-sm line-clamp-3">
+                    {post.data.description}
+                  </p>
+                </a>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <p class="text-gray-500 text-center py-20">
+          {t({
+            en: "No posts yet. Check back soon!",
+            es: "Aún no hay publicaciones. ¡Vuelve pronto!",
+          })}
+        </p>
+      )}
+    </div>
+  </main>
 </Layout>
-
-<style>
-  p {
-    margin-block-start: var(--sp-s);
-  }
-  ul {
-    margin-block-start: var(--sp-m);
-    display: grid;
-    gap: var(--sp-s);
-    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-  }
-
-  li {
-    margin-block-end: 1rem;
-    img {
-      border-radius: 6px;
-    }
-  }
-</style>

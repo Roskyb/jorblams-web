@@ -12,7 +12,6 @@ const locale = Astro.currentLocale as Lang;
 
 // Get projects filtered by locale and sorted by order/date
 const allProjects = await getCollection("projects");
-console.log(allProjects);
 const projects = allProjects.sort((a, b) => {
 	// Sort by order first, then by date (newest first)
 	if (a.data.order !== b.data.order) {
@@ -92,6 +91,7 @@ export const getStaticPaths = () =>
             {projects.map((project) => (
               <div class="group">
                 <div class="bg-neutral-900 rounded-lg aspect-video mb-4 overflow-hidden">
+                  
                   {project.data.cover ? (
                     <Image 
                       src={project.data.cover} 

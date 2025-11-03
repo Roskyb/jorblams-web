@@ -3,9 +3,6 @@ import type { UIDict } from "../types";
 export const about: {
 	en: UIDict;
 	es: UIDict;
-	ja: UIDict;
-	"zh-cn": UIDict;
-	ar: UIDict;
 } = {
 	en: {
 		title: "About Us",
