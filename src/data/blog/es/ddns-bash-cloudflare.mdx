@@ -26,23 +26,23 @@ Utilizar este tipo de servicio nos permite mantener actualizada la IP de nuestro
 Primero, entramos a nuestra cuenta de Cloudflare en la página de inicio.
 
 Una vez dentro, vamos a **DNS > Record**  
-![img.png](/cloudflare/dns-record-menu.webp)
+![img.png](../ddns-bash-cloudflare/dns-record-menu.webp)
 
 Después, creamos un nuevo registro apuntando a nuestra IP actual o a una ficticia, ya que será temporal.  
-![img_1.png](/cloudflare/dns-record-creation.webp)
+![img_1.png](../ddns-bash-cloudflare/dns-record-creation.webp)
 
 Ahora necesitaremos el **ZONE ID**, que podemos conseguir desde la sección de **Overview**.  
-![img_1.png](/cloudflare/zone-id.webp)
+![img_1.png](../ddns-bash-cloudflare/zone-id.webp)
 
 También necesitaremos crear una **API Key** para usarla en el script.  
-![img_1.png](/cloudflare/my-profile.webp)
+![img_1.png](../ddns-bash-cloudflare/my-profile.webp)
 
 Nos movemos a la sección de **API tokens**  
-![img_1.png](/cloudflare/api-tokens.webp)
+![img_1.png](../ddns-bash-cloudflare/api-tokens.webp)
 
 Creamos un nuevo token y elegimos la plantilla de **"Edit zone DNS"**.  
 Una vez dentro, solo tenemos que cambiar la zona a la que apunta.  
-![img_1.png](/cloudflare/create-token-screen.webp)
+![img_1.png](../ddns-bash-cloudflare/create-token-screen.webp)
 
 Guardamos y creamos el token. Nos dará la opción de copiarlo. **Cópialo y guárdalo para usarlo más tarde en el script.**
 
@@ -76,7 +76,7 @@ Editamos el archivo `.conf` y cambiamos las variables con los datos que hemos co
 nano $HOME/cloudflare-ddns/update-cloudflare-dns.conf
 ```
 
-![img_1.png](/cloudflare/script_config.webp)
+![img_1.png](../ddns-bash-cloudflare/script_config.webp)
 
 Ahora podemos probar a ejecutar el script:
 
