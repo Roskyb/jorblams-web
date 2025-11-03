@@ -2,7 +2,7 @@
 	"title": "Playwright to discord reporter",
 	"slug": "/playwright-to-discord-reporter",
 	"description": "A simple playwright reporter.",
-	"cover": "",
+	"cover": "/src/assets/images/image-mesh-gradient.png",
 	"technologies": ["Typescript", "npm", "discord.js", "playwright"],
 	"github": "https://github.com/Roskyb/playwright-discord-report",
 	"npm": "https://www.npmjs.com/package/playwright-discord-reporter",

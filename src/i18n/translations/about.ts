@@ -5,40 +5,46 @@ export const about: {
 	es: UIDict;
 } = {
 	en: {
-		title: "About Us",
-		intro: "Welcome to our About page. Learn more about our project and team.",
-		"project.title": "About the Project",
-		"project.description":
-			"This is a multilingual Astro CMS starter template that supports i18n features from Astro v4.0. It's designed to help you build multilingual websites quickly and efficiently.",
-		"features.title": "Key Features",
-		"features.i18n": "Built-in internationalization support",
-		"features.performance": "Optimized for performance",
-		"features.seo": "SEO-friendly structure",
-		"features.customizable": "Highly customizable",
-		"team.title": "Our Team",
-		"team.description":
-			"We are a group of developers passionate about creating tools that make web development easier and more accessible.",
-		"contact.title": "Contact Us",
-		"contact.description":
-			"Have questions or suggestions? Feel free to reach out to us.",
+		title: "About Me",
+		subtitle: "Building digital experiences with modern web technologies",
+		"story.title": "My Story",
+		"story.p1":
+			"I'm Jorge Blanco, a full-stack developer passionate about creating elegant solutions to complex problems. My journey in web development started with a curiosity for how things work, which quickly evolved into a career building modern web applications.",
+		"story.p2":
+			"I specialize in TypeScript, Angular, and NestJS, focusing on building scalable and maintainable applications. I believe in writing clean code, following best practices, and constantly learning new technologies to stay ahead in this ever-evolving field.",
+		"skills.title": "What I Do",
+		"skills.frontend.title": "Frontend Development",
+		"skills.frontend.description":
+			"Creating responsive and performant user interfaces with modern frameworks and libraries.",
+		"skills.backend.title": "Backend Development",
+		"skills.backend.description":
+			"Building robust APIs and server-side applications with scalable architectures.",
+		"tools.title": "Tools & Workflow",
+		"cta.title": "Let's Work Together",
+		"cta.description":
+			"I'm always open to discussing new projects, creative ideas, or opportunities.",
+		"cta.button": "Get in Touch",
 	},
 	es: {
-		title: "Sobre Nosotros",
-		intro:
-			"Bienvenido a nuestra página Acerca de. Aprende más sobre nuestro proyecto y equipo.",
-		"project.title": "Sobre el Proyecto",
-		"project.description":
-			"Esta es una plantilla de inicio de Astro CMS multilingüe que admite funciones i18n de Astro v4.0. Está diseñada para ayudarte a construir sitios web multilingües de manera rápida y eficiente.",
-		"features.title": "Características Principales",
-		"features.i18n": "Soporte de internacionalización incorporado",
-		"features.performance": "Optimizado para rendimiento",
-		"features.seo": "Estructura amigable para SEO",
-		"features.customizable": "Altamente personalizable",
-		"team.title": "Nuestro Equipo",
-		"team.description":
-			"Somos un grupo de desarrolladores apasionados por crear herramientas que hagan el desarrollo web más fácil y accesible.",
-		"contact.title": "Contáctanos",
-		"contact.description":
-			"¿Tienes preguntas o sugerencias? No dudes en contactarnos.",
+		title: "Sobre Mí",
+		subtitle:
+			"Construyendo experiencias digitales con tecnologías web modernas",
+		"story.title": "Mi Historia",
+		"story.p1":
+			"Soy Jorge Blanco, un desarrollador full-stack apasionado por crear soluciones elegantes a problemas complejos. Mi viaje en el desarrollo web comenzó con curiosidad por cómo funcionan las cosas, lo que rápidamente evolucionó en una carrera construyendo aplicaciones web modernas.",
+		"story.p2":
+			"Me especializo en TypeScript, Angular y NestJS, enfocándome en construir aplicaciones escalables y mantenibles. Creo en escribir código limpio, seguir las mejores prácticas y aprender constantemente nuevas tecnologías para mantenerme a la vanguardia en este campo en constante evolución.",
+		"skills.title": "Lo Que Hago",
+		"skills.frontend.title": "Desarrollo Frontend",
+		"skills.frontend.description":
+			"Creando interfaces de usuario responsivas y eficientes con frameworks y librerías modernas.",
+		"skills.backend.title": "Desarrollo Backend",
+		"skills.backend.description":
+			"Construyendo APIs robustas y aplicaciones del lado del servidor con arquitecturas escalables.",
+		"tools.title": "Herramientas y Flujo de Trabajo",
+		"cta.title": "Trabajemos Juntos",
+		"cta.description":
+			"Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades.",
+		"cta.button": "Contactar",
 	},
 };
