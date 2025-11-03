@@ -10,7 +10,6 @@ const posts = (await getCollection("blog"))
 	.filter((post) => post.id.split("/")[0] === locale && !post.data.draft)
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-console.log(posts.at(0)?.data.cover);
 const title = t({
 	en: "Blog",
 	es: "Blog",

@@ -4,7 +4,7 @@ description: Update your DNS IP through a script and crontab
 date: 2025-02-01T10:00:00
 lastModified: 2025-02-01T10:00:00
 author: en/john-doe
-cover: ../../../../2025/11/03/image-mesh-gradient (2).png
+cover: ../ddns-bash-cloudflare/image-mesh-gradient (2).png
 tags:
   - en/test
 category: en/test
@@ -26,23 +26,23 @@ Using this type of service allows us to keep our router's IP updated (it usually
 First, we log into our Cloudflare account on the homepage.
 
 Once inside, go to **DNS > Record**  
-![img.png](../../../../2025/11/03/dns-record-menu.webp)
+![img.png](../ddns-bash-cloudflare/dns-record-menu.webp)
 
 Then, create a new record pointing to our current IP or a fictitious one, as it will be temporary.  
-![img_1.png](../../../../2025/11/03/dns-record-creation.webp)
+![img_1.png](../ddns-bash-cloudflare/dns-record-creation.webp)
 
 Now we'll need the **ZONE ID**, which we can get from the **Overview** section.  
-![img_1.png](../../../../2025/11/03/zone-id.webp)
+![img_1.png](../ddns-bash-cloudflare/zone-id.webp)
 
 We'll also need to create an **API Key** to use in the script.  
-![img_1.png](../../../../2025/11/03/my-profile.webp)
+![img_1.png](../ddns-bash-cloudflare/my-profile.webp)
 
 Move to the **API tokens** section  
-![img_1.png](../../../../2025/11/03/api-tokens.webp)
+![img_1.png](../ddns-bash-cloudflare/api-tokens.webp)
 
 Create a new token and choose the **"Edit zone DNS"** template.  
 Once inside, we just need to change the zone it points to.  
-![img_1.png](../../../../2025/11/03/create-token-screen.webp)
+![img_1.png](../ddns-bash-cloudflare/create-token-screen.webp)
 
 Save and create the token. It will give you the option to copy it. **Copy it and save it to use later in the script.**
 
@@ -76,7 +76,7 @@ Edit the `.conf` file and change the variables with the data we previously obtai
 nano $HOME/cloudflare-ddns/update-cloudflare-dns.conf
 ```
 
-![img_1.png](../../../../2025/11/03/script_config.webp)
+![img_1.png](../ddns-bash-cloudflare/script_config.webp)
 
 Now we can test running the script:
 

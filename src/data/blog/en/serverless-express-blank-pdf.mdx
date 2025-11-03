@@ -36,10 +36,10 @@ exports.handler = serverlessExpress({
 With this code, we can work around the limitations that API Gateway has when sending content in binary format and transform it into Base64, which is a format that it accepts by default.  
 Keep in mind that our API Gateway also needs to accept this type of content. We can configure this from the settings in the left panel of the AWS control panel.
 
-![API Gateway Configuration](../../../../2025/11/03/api-gateway-config.webp)
+![API Gateway Configuration](../serverless-express-blank-pdf/api-gateway-config.webp)
 
-![Binary Media Types in API Gateway](../../../../2025/11/03/api-gateway-binary-media-types.webp)
+![Binary Media Types in API Gateway](../serverless-express-blank-pdf/api-gateway-binary-media-types.webp)
 
-![Media Types in API Gateway](../../../../2025/11/03/api-gateway-media-types.webp)
+![Media Types in API Gateway](../serverless-express-blank-pdf/api-gateway-media-types.webp)
 
 With that, you should now be able to download PDFs from any Express route.

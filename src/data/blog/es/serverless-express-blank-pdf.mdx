@@ -1,5 +1,5 @@
 ---
-title: API Gateway with Express, Fixing Blank PDFs
+title: Api Gateway con express, solucionar pdf en blanco
 description: Soluciona el envío de PDFs en blanco con Serverless Express y API Gateway.
 date: 2025-01-25T10:00:00
 lastModified: 2025-01-25T10:00:00
@@ -16,7 +16,7 @@ draft: false
 
 Tal vez hayas usado alguna vez Serverless Express, ya sea para desplegarlo en AWS o derivados, pero si alguna vez has tenido que generar un PDF y enviarlo de vuelta, la cosa se puede complicar. Aunque, si ya estás aquí, seguro que sabes de lo que hablo.
 
-Imaginemos que tienes un endpoint, por ejemplo: `/api/v1/pdf/facturas`. Al momento de consultar ese endpoint, te va a llegar un PDF en blanco, pero con las páginas correspondientes al PDF original, es decir, el contenido parece que ocupa espacio, pero a ti te llega todo en blanco.
+Imaginemos que tienes un endpoint, por ejemplo: \`/api/v1/pdf/facturas\`. Al momento de consultar ese endpoint, te va a llegar un PDF en blanco, pero con las páginas correspondientes al PDF original, es decir, el contenido parece que ocupa espacio, pero a ti te llega todo en blanco.
 
 Esto se debe a la configuración de tipos de contenido binarios. Para solucionarlo, es tan fácil como usar este trozo de código:
 
@@ -36,10 +36,10 @@ exports.handler = serverlessExpress({
 Con este código podemos sortear las limitaciones que tiene API Gateway a la hora de enviar contenido en formato binario y transformarlo en Base64, que sí es un formato que acepta por defecto.  
 Hay que tener en cuenta que nuestro API Gateway también tiene que aceptar este tipo de contenidos. Esto lo podemos configurar desde los ajustes en la parte izquierda del panel de control de AWS.
 
-![API Gateway Configuration](../../../../2025/11/03/api-gateway-config.webp)
+![API Gateway Configuration](../serverless-express-blank-pdf/api-gateway-config.webp)
 
-![Binary Media Types in API Gateway](../../../../2025/11/03/api-gateway-binary-media-types.webp)
+![Binary Media Types in API Gateway](../serverless-express-blank-pdf/api-gateway-binary-media-types.webp)
 
-![Media Types in API Gateway](../../../../2025/11/03/api-gateway-media-types.webp)
+![Media Types in API Gateway](../serverless-express-blank-pdf/api-gateway-media-types.webp)
 
-With that, you should now be able to download PDFs from any Express route.
+Con eso, ya deberías poder descargar PDFs desde cualquier ruta de Express.
