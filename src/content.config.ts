@@ -60,6 +60,7 @@ const projects = defineCollection({
 			cover: z.union([image(), z.string()]).optional(),
 			technologies: z.array(z.string()).optional(),
 			github: z.string().url().optional().or(z.literal("")),
+			npm: z.string().url().optional().or(z.literal("")),
 			demo: z.string().url().optional().or(z.literal("")),
 			featured: z.boolean().optional().default(false),
 			order: z.number().optional().default(0),

@@ -15,8 +15,8 @@ html {
 
 .custom-cursor {
 	position: fixed;
-	width: 36px;
-	height: 36px;
+	width: 16px;
+	height: 16px;
 	border-radius: 50%;
 	background-color: white;
 	pointer-events: none;
@@ -38,4 +38,9 @@ html {
 	background-color: white;
 	border: none;
 	z-index: 0;
+}
+
+.custom-cursor.cursor-grow {
+	width: 36px;
+	height: 36px;
 }

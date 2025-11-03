@@ -194,6 +194,11 @@ collections:
         label: 'GitHub URL'
         required: false
         i18n: 'duplicate'
+      - name: 'npm'
+        widget: 'string'
+        label: 'NPM URL'
+        required: false
+        i18n: 'duplicate'
       - name: 'demo'
         widget: 'string'
         label: 'Demo URL'
