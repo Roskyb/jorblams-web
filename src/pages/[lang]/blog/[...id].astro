@@ -27,113 +27,144 @@ const author = await getEntry(post.data.author);
 ---
 
 <Layout {title}>
-  {post.data.cover && (
-    <Image src={post.data.cover} alt={post.data.title} class="cover" />
-  )}
-
-  <header>
-    <h1>{title}</h1>
-    <div class="meta">
-      {category ? (
-        <span class="category">{category.data.title}</span>
-      ) : (
-        <span class="category">
-    {
-   t({
-      ja: "カテゴリなし",
-      en: "No category",
-      "zh-cn": "无类别",
-      ar: "بدون تصنيف",
-      es: "Sin categoría",
-    })
-      }
-        </span>
-      )}
-      {tags && tags.length > 0 ? (
-        <div class="tags">
-          {tags.map((tag) => (
-            <span class="tag">{tag?.data.title}</span>
-          ))}
-        </div>
-      ) : (
-        <div class="tags">
-          <span class="tag">
-            {t({
-              ja: "タグなし",
-              en: "No tags",
-              "zh-cn": "无标签",
-              ar: "بدون وسوم",
-              es: "Sin etiquetas",
-            })}
-          </span>
-        </div>
-      )}
-      <div class="author-date">
-        {author ? (
-          <span class="author">By {author?.data.name}</span>
-        ) : (
-          <span class="author">
-            {t({
-              ja: "作者不明",
-              en: "Unknown author",
-              "zh-cn": "未知作者",
-              ar: "مؤلف مجهول",
-              es: "Autor desconocido",
-            })}
-          </span>
-        )}
-        <time datetime={post.data.date.toISOString()}>
-          {post.data.date.toLocaleDateString(lang)}
-        </time>
+  <main class="min-h-screen bg-black text-white">
+    <!-- Hero Section with Cover Image -->
+    {post.data.cover && (
+      <div class="w-full h-[60vh] relative overflow-hidden">
+        <Image 
+          src={post.data.cover} 
+          alt={post.data.title} 
+          class="w-full h-full object-cover"
+          width={1920}
+          height={1080}
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
       </div>
-    </div>
-  </header>
+    )}
 
-  <Content class="material-icons" />
+    <!-- Content Container -->
+    <div class="max-w-4xl mx-auto px-8 md:px-16 py-16 -mt-32 relative z-10">
+      <!-- Header -->
+      <header class="mb-16">
+        <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+          {title}
+        </h1>
+        
+        <!-- Meta Information -->
+        <div class="flex flex-wrap items-center gap-4 mb-6">
+          {author && (
+            <span class="text-gray-400 text-sm">
+              By {author.data.name}
+            </span>
+          )}
+          <span class="text-gray-600">•</span>
+          <time datetime={post.data.date.toISOString()} class="text-gray-400 text-sm">
+            {post.data.date.toLocaleDateString(locale, { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </time>
+        </div>
+
+        <!-- Tags -->
+        {tags && tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <span class="text-xs px-3 py-1 rounded-full border border-white bg-transparent text-white">
+                {tag?.data.title}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <!-- Article Content -->
+      <article class="prose prose-invert prose-lg max-w-none">
+        <Content />
+      </article>
+    </div>
+  </main>
 </Layout>
 
-<style>
-  header {
-    text-align: center;
-    border-block-end: 1px solid var(--color-theme);
-    padding-block-end: var(--sp-m);
-    h1 {
-      color: var(--color-theme);
-      font-size: 1.8rem;
-    }
-    .meta {
-      margin-block-start: var(--sp-s);
-    }
-    .category {
-      display: inline-block;
-      background: var(--color-theme);
-      color: var(--color-base);
-      padding: 0.2em 0.6em;
-      border-radius: 4px;
-      font-size: 0.9em;
-    }
-    .tags {
-      display: flex;
-      gap: 0.5em;
-      flex-wrap: wrap;
-      margin-block: 0.5em;
-    }
-    .tag {
-      background: var(--color-muted);
-      padding: 0.2em 0.6em;
-      border-radius: 4px;
-      font-size: 0.8em;
-    }
-    .author-date {
-      display: flex;
-      gap: 1em;
-      justify-content: center;
-      color: var(--color-muted);
-      font-size: 0.9em;
-    }
+<style is:global>
+  /* Article Typography */
+  article.prose {
+    color: #e5e5e5;
   }
-  .cover {
-    border-radius: 16px;
-    margin: 0;
+
+  article.prose h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
+
+  article.prose h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  article.prose p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+  }
+
+  article.prose a {
+    color: #fcd34d;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  article.prose a:hover {
+    color: white;
+  }
+
+  article.prose strong {
+    color: white;
+    font-weight: 600;
+  }
+
+  article.prose code {
+    background: #262626;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  article.prose pre {
+    background: #171717;
+    border: 1px solid #404040;
+    border-radius: 8px;
+    padding: 1.5rem;
+    overflow-x: auto;
+    margin: 2rem 0;
+  }
+
+  article.prose ul,
+  article.prose ol {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+  }
+
+  article.prose li {
+    margin-bottom: 0.5rem;
+  }
+
+  article.prose blockquote {
+    border-left: 4px solid #fcd34d;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #a3a3a3;
+  }
+
+  article.prose img {
+    border-radius: 8px;
+    margin: 2rem 0;
   }
 </style>
