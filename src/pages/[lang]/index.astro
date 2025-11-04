@@ -127,9 +127,17 @@ export const getStaticPaths = () =>
              
                 <div class="w-full md:w-64 order-1 md:order-2">
                   <div class="relative bg-neutral-900 aspect-square overflow-hidden transition-all duration-200 ease-in-out group-hover:rounded-[50%]">
-                    {project.data.cover ? (
+                    {project.data.cover && typeof project.data.cover !== 'string' ? (
                       <Image 
                         src={project.data.cover} 
+                        width={400}
+                        height={400}
+                        alt={project.data.title}
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
+                      />
+                    ) : project.data.cover ? (
+                      <img 
+                        src={project.data.cover as string} 
                         width={400}
                         height={400}
                         alt={project.data.title}
