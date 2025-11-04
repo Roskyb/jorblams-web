@@ -1,0 +1,15 @@
+# Añadimos libvips al entorno para que sharp pueda enlazar
+[phases.setup]
+nixpkgs = ["libvips"]
+
+# Usa Node 20, que sí es compatible con sharp
+[build]
+node_version = "20"
+
+# Railpack usa pnpm por defecto si lo detecta,
+# pero mejor fijarlo explícitamente. Si usas npm cambia esto.
+[phases.install]
+cmd = "npm install --include=optional"
+
+[phases.build]
+cmd = "npm run build"
