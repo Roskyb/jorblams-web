@@ -12,6 +12,9 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwindcss()],
 	},
+	image: {
+		service: passthroughImageService(),
+	},
 	i18n: {
 		defaultLocale: DEFAULT_LOCALE_SETTING,
 		locales: Object.keys(LOCALES_SETTING),
