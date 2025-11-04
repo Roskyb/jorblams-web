@@ -1,8 +1,8 @@
 FROM node:22 AS build
 WORKDIR /app
 COPY package*.json ./
+RUN chown root.root .
 RUN npm ci
-RUN npm install --force @img/sharp-linuxmusl-arm64
 COPY . .
 RUN npm run build
 
