@@ -9,51 +9,66 @@ export const getStaticPaths = () => localeParams;
 ---
 
 <Layout {title}>
-  <section class="container">
-    <h1>
-      <b>404</b>
-      {title}
-    </h1>
+  <main class="min-h-screen bg-black text-white flex items-center justify-center px-8">
+    <div class="max-w-2xl text-center">
+      <!-- 404 Number -->
+      <div class="mb-8">
+        <h1 class="text-[12rem] md:text-[16rem] font-bold leading-none text-amber-200 opacity-80">
+          404
+        </h1>
+      </div>
 
-    <p>
-      {t("404.message")}
-    </p>
-
-    <a href="/" class="gotop">
-      {t("404.top.page")}
-    </a>
-
-    <section class="langList">
-      <h2>
-        {
-          t({
-            ja: "他の言語で見る",
-            en: "View in other languages",
-            "zh-cn": "用其他语言查看",
-            ar: "عرض بلغات أخرى",
-            es: "Ver en otros idiomas",
-          })
-        }
+      <!-- Title -->
+      <h2 class="text-3xl md:text-5xl font-bold mb-6">
+        {title}
       </h2>
 
-      <ul>
-        {
-          Object.entries(LOCALES).map(([lang, { label }]) => (
-            <li>
-              <a
-                href={`/${lang}/`}
-                data-lang-path={lang}
-                onclick={`localStorage.selectedLang = "${lang}"`}
-                dir={LOCALES[lang].dir || null}
-              >
-                {label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-  </section>
+      <!-- Message -->
+      <p class="text-gray-400 text-lg mb-12 leading-relaxed">
+        {t("404.message")}
+      </p>
+
+      <!-- Back Home Button -->
+      <a 
+        href="/" 
+        class="custom-cursor-trigger btn-trigger btn-primary z-50"
+      >
+        <span class="relative z-10">{t("404.top.page")}</span>
+      </a>
+      
+
+
+      <!-- Language Selector -->
+      <section class="mt-16 pt-12 border-t border-white/10">
+        <h3 class="text-sm text-gray-500 mb-6 uppercase tracking-wider">
+          {
+            t({
+              en: "View in other languages",
+              es: "Ver en otros idiomas",
+            })
+          }
+        </h3>
+
+        <ul class="flex gap-4 justify-center flex-wrap">
+          {
+            Object.entries(LOCALES).map(([lang, { label }]) => (
+              <li>
+                <a
+                  href={`/${lang}/`}
+                  data-lang-path={lang}
+                  onclick={`localStorage.selectedLang = "${lang}"`}
+                  dir={LOCALES[lang].dir || null}
+                  class="text-sm px-4 py-2 rounded-full border border-white bg-transparent text-white hover:bg-white hover:text-black transition-all duration-300"
+                >
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </main>
 </Layout>
 
 <script is:inline>
@@ -70,54 +85,3 @@ export const getStaticPaths = () => localeParams;
     localStorage.removeItem("userAccessPath");
   }
 </script>
-
-<style>
-  .container {
-    text-align: center;
-    border: 4px dotted color-mix(in srgb, var(--color-caution) 40%, transparent);
-    padding: var(--sp-l);
-    border-radius: 16px;
-  }
-
-  .container > h1 {
-    color: var(--color-caution);
-    font-size: 2rem;
-    b {
-      display: block;
-      font-size: 4em;
-      font-weight: 900;
-      letter-spacing: -0.1em;
-      opacity: 0.6;
-    }
-  }
-
-  .container > p {
-    margin-block-start: var(--sp-s);
-  }
-
-  .gotop {
-    display: inline-block;
-    margin-inline: auto;
-    margin-block-start: var(--sp-s);
-    padding: 0.5em 1.5em;
-    border-radius: 999px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    background: var(--color-theme);
-    color: var(--color-base);
-  }
-
-  .langList {
-    margin-block-start: var(--sp-l);
-    ul {
-      margin-block-start: var(--sp-s);
-      display: flex;
-      gap: var(--sp-s);
-      justify-content: center;
-    }
-    a {
-      color: var(--color-theme);
-      text-decoration: underline;
-    }
-  }
-</style>

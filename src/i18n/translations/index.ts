@@ -7,7 +7,7 @@ export const index: {
 	en: {
 		greeting: "Hello, I'm",
 		name: "Jorge Blanco",
-		role: "Full-stack Developer, Designer & Creative Technologist",
+		role: "Full-stack Developer",
 		intro:
 			"I craft digital experiences that blend beautiful design with powerful functionality. Passionate about web technologies, user experience, and bringing ideas to life through code.",
 		"cta.work": "View My Work",
@@ -27,9 +27,9 @@ export const index: {
 	es: {
 		greeting: "Hola, soy",
 		name: "Jorge Blanco",
-		role: "Desarrollador Full-stack, Diseñador y Tecnólogo Creativo",
+		role: "Desarrollador Full-stack",
 		intro:
-			"Creo experiencias digitales que combinan diseño hermoso con funcionalidad potente. Apasionado por las tecnologías web, la experiencia de usuario y dar vida a las ideas a través del código.",
+			"Desarrollador centrado en crear experiencias digitales que unan un buen diseño con una funcionalidad sólida. Me especializo en tecnologías web y en mejorar la experiencia de usuario, llevando ideas a productos bien ejecutados.",
 		"cta.work": "Ver Mi Trabajo",
 		"cta.about": "Sobre Mí",
 		"skills.development": "DESARROLLO",
