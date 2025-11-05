@@ -9,13 +9,6 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
 	output: "static",
 	site: "http://okami-web-iqjh4d-1e52ec-88-11-130-61.traefik.me",
-	build: {
-		rollupOptions: {
-			external: [
-				"sharp"
-			]
-		}
-	},
 	vite: {
 		plugins: [tailwindcss()],
 	},
