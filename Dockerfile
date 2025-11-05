@@ -3,7 +3,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm install --cpu=x64 --os=linux --libc=glibc sharp
 RUN npm run build
 
 FROM nginx:alpine AS runtime
