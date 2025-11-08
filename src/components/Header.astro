@@ -2,15 +2,42 @@
 // Header & Navigation UI displayed on each page.
 
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { type Lang, useTranslations } from "@/i18n";
+import { LOCALES, type Lang, useTranslations } from "@/i18n";
 const t = useTranslations(Astro.currentLocale as Lang);
 
 const locale = Astro.currentLocale as Lang;
+
+// Get current path without locale
+const currentPath = Astro.url.pathname.split("/").slice(2).join("/");
 ---
 
 <!-- Navigation Bar -->
 <nav class="fixed top-0 left-0 right-0 z-[100] px-8 py-6 border-b border-white/10 bg-black">
-  <div class="flex items-center justify-end">
+  <div class="flex items-center justify-between">
+    <!-- Language Selector -->
+    <div class="relative">
+      <button id="langButton" class="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span class="text-sm font-medium uppercase">{locale}</span>
+      </button>
+      
+      <!-- Language Dropdown -->
+      <div id="langDropdown" class="absolute top-full left-0 mt-2 bg-neutral-900 border border-white/10 rounded-lg shadow-xl opacity-0 pointer-events-none transition-opacity duration-200 min-w-[120px]">
+        {Object.entries(LOCALES).map(([lang, { label }]) => (
+          <a
+            href={`/${lang}/${currentPath}`}
+            class={`block px-4 py-2 text-sm text-white hover:bg-neutral-800 hover:text-amber-200 transition-colors first:rounded-t-lg last:rounded-b-lg ${lang === locale ? 'bg-neutral-800 text-amber-200' : ''}`}
+          >
+            {label}
+          </a>
+        ))}
+      </div>
+    </div>
+
     <!-- Menu Button -->
     <button id="menuButton" class="text-white hover:opacity-70 transition-opacity">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -107,8 +134,39 @@ const locale = Astro.currentLocale as Lang;
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeDrawer();
+      closeLangDropdown();
     }
   });
+
+  // Language Dropdown
+  const langButton = document.getElementById('langButton');
+  const langDropdown = document.getElementById('langDropdown');
+
+  function openLangDropdown() {
+    langDropdown?.classList.remove('opacity-0', 'pointer-events-none');
+  }
+
+  function closeLangDropdown() {
+    langDropdown?.classList.add('opacity-0', 'pointer-events-none');
+  }
+
+  langButton?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = !langDropdown?.classList.contains('opacity-0');
+    if (isOpen) {
+      closeLangDropdown();
+    } else {
+      openLangDropdown();
+    }
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!langButton?.contains(e.target as Node) && !langDropdown?.contains(e.target as Node)) {
+      closeLangDropdown();
+    }
+  });
+
 </script>
 
 <style>

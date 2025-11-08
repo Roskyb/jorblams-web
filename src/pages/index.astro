@@ -2,7 +2,7 @@
 // Redirect to Top page for user's system locale
 // Basically, you don't need to edit this file.
 
-import { SITE_DESCRIPTION, SITE_TITLE, X_ACCOUNT } from "@/consts";
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/consts";
 import {
 	DEFAULT_LOCALE,
 	LOCALES,
@@ -48,7 +48,6 @@ const defaultLocale = DEFAULT_LOCALE;
     <meta property="og:url" content={Astro.url} />
     <meta property="og:locale" content={DEFAULT_LOCALE} />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content={t(X_ACCOUNT)} />
 
     <noscript>
       <meta

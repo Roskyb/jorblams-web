@@ -11,8 +11,6 @@ export const SITE_DESCRIPTION: string | Multilingual = {
 	es: "Desarrollador full-stack apasionado por crear aplicaciones web modernas con TypeScript, Angular y NestJS.",
 };
 
-export const X_ACCOUNT: string | Multilingual = "@yacosta738";
-
 export const NOT_TRANSLATED_CAUTION: string | Multilingual = {
 	en: "This page is not available in your language.",
 	es: "Esta página no está disponible en tu idioma.",
