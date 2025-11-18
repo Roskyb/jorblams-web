@@ -8,7 +8,7 @@ import { DEFAULT_LOCALE_SETTING, LOCALES_SETTING } from "./src/i18n/locales";
 // https://astro.build/config
 export default defineConfig({
 	output: "static",
-	site: "https://jorblams-web.vercel.app",
+	site: "https://www.jorblams.com",
 	vite: {
 		plugins: [tailwindcss()],
 	},
