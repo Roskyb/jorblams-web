@@ -50,7 +50,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
 
     <!-- icon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon alternate" sizes="64x64" type="image/png" href="/favicon.png">
+    <link rel="icon alternate" sizes="64x64" type="image/png" href="/favicon.svg">
     <link rel="icon" sizes="192x192" href="/android-chrome.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="color-scheme" content="light dark" />
@@ -60,7 +60,6 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <meta property="og:title" content={localeTitle} />
     <meta property="og:site_name" content={localeTitle} />
     <meta property="og:description" content={localeDescription} />
-    <meta property="og:image" content={Astro.site + "ogp.png"} />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:locale" content={LOCALES[locale].lang || locale} />
 
