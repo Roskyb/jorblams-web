@@ -1,0 +1,138 @@
+---
+title: Configurar Material Symbols Outlined en Angular sin repetir código
+description: Usa provideAppInitializer para cambiar los iconos de Material a outlined de forma global, sin tener que especificarlo en cada mat-icon
+date: 2026-01-05T20:50:00
+lastModified: 2026-01-05T20:50:00
+author: es/john-doe
+tags:
+  - es/angular
+  - es/typescript
+category: es/desarrollo
+draft: false
+---
+
+## El problema
+
+Si alguna vez has usado Angular Material, seguro que te has dado cuenta de que por defecto usa los iconos `material-icons` (el estilo filled, los de toda la vida). El problema es que muchos preferimos usar `material-symbols-outlined`, que tienen un diseño más moderno y limpio.
+
+> Puedes ver todos los iconos disponibles en [Google Fonts Icons](https://fonts.google.com/icons)
+
+La forma tradicional (y la más repetitiva) es añadir la clase directamente en cada icono:
+
+```html
+<mat-icon class="material-symbols-outlined">home</mat-icon>
+<mat-icon class="material-symbols-outlined">settings</mat-icon>
+<mat-icon class="material-symbols-outlined">favorite</mat-icon>
+```
+
+Esto es un rollo porque tienes que repetirlo en cada icono de toda tu aplicación. Además, si en el futuro decides cambiar de estilo, tienes que tocar todos los iconos uno por uno.
+
+## La solución con `provideAppInitializer`
+
+Hay una forma mucho mejor de hacerlo, usando `provideAppInitializer` para configurarlo una sola vez y que todos los iconos usen automáticamente el estilo outlined:
+
+```typescript
+provideAppInitializer(() => {
+  const initializerFn = ((iconRegistry: MatIconRegistry) => () => {
+    const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
+    const outlinedFontSetClasses = defaultFontSetClasses
+      .filter((fontSetClass) => fontSetClass !== 'material-icons')
+      .concat(['material-symbols-outlined']);
+    iconRegistry.setDefaultFontSetClass(...outlinedFontSetClasses);
+  })(inject(MatIconRegistry));
+  return initializerFn();
+})
+```
+
+## ¿Qué está pasando aquí?
+
+Vamos a desglosar el código porque tiene algunas cosas interesantes:
+
+### El APP_INITIALIZER
+
+`provideAppInitializer` ejecuta código durante la fase de inicialización de Angular, antes de que se renderice cualquier componente. Esto es perfecto para configuraciones globales como esta.
+
+### La IIFE con inyección
+
+```typescript
+const initializerFn = ((iconRegistry: MatIconRegistry) => () => {
+  // ... código
+})(inject(MatIconRegistry));
+```
+
+Este patrón es un poco raro la primera vez que lo ves. Es una **función que se ejecuta inmediatamente** (IIFE) que recibe el `MatIconRegistry` y devuelve otra función. ¿Por qué? Porque `inject()` solo puede usarse en ciertos contextos, y esta es la forma de capturarlo correctamente para usarlo después.
+
+### El filtrado inteligente
+
+```typescript
+const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
+const outlinedFontSetClasses = defaultFontSetClasses
+  .filter((fontSetClass) => fontSetClass !== 'material-icons')
+  .concat(['material-symbols-outlined']);
+```
+
+En lugar de reemplazar toda la configuración de golpe, este código:
+1. Obtiene las clases existentes
+2. Quita `material-icons`
+3. Añade `material-symbols-outlined`
+
+Así, si tienes otras configuraciones de iconos, no las rompes.
+
+## Cómo implementarlo
+
+### Paso 1: Añade las fuentes
+
+En tu `index.html`, añade el link a Material Symbols:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+```
+
+### Paso 2: Configura el provider
+
+En tu `app.config.ts`, añade el provider:
+
+```typescript
+import { ApplicationConfig } from '@angular/core';
+import { provideAppInitializer } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { inject } from '@angular/core';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideAppInitializer(() => {
+      const initializerFn = ((iconRegistry: MatIconRegistry) => () => {
+        const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
+        const outlinedFontSetClasses = defaultFontSetClasses
+          .filter((fontSetClass) => fontSetClass !== 'material-icons')
+          .concat(['material-symbols-outlined']);
+        iconRegistry.setDefaultFontSetClass(...outlinedFontSetClasses);
+      })(inject(MatIconRegistry));
+      return initializerFn();
+    }),
+    // ... otros providers
+  ]
+};
+```
+
+### Paso 3: Usa los iconos normalmente
+
+```html
+<mat-icon>home</mat-icon>
+<mat-icon>settings</mat-icon>
+<mat-icon>favorite</mat-icon>
+```
+
+Y listo. Todos los iconos usarán automáticamente el estilo outlined sin tener que especificar nada más.
+
+> Recuerda que puedes buscar todos los iconos disponibles en [fonts.google.com/icons](https://fonts.google.com/icons)
+
+## Por qué esta forma es mejor
+
+- **No repites código**: Configuras una vez y te olvidas
+- **Fácil de mantener**: Si cambias de estilo, solo tocas un sitio
+- **Usa las APIs modernas de Angular**: Providers funcionales
+- **Type-safe**: TypeScript te protege de errores
+- **Preserva otras configuraciones**: No rompe nada que ya tengas configurado
+
+Con esto te ahorras un montón de tiempo y código repetitivo. 🚀
