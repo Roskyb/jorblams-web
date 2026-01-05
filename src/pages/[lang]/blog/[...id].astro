@@ -41,7 +41,10 @@ const author = await getEntry(post.data.author);
     )}
 
     <!-- Content Container -->
-    <div class="max-w-4xl mx-auto px-8 md:px-16 py-16 -mt-32 relative z-10">
+    <div class:list={[
+      "max-w-4xl mx-auto px-8 md:px-16 py-16 relative z-10",
+      post.data.cover ? "-mt-32" : "pt-32"
+    ]}>
       <!-- Header -->
       <header class="mb-16">
         <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
