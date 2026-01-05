@@ -1,0 +1,12 @@
+---
+// Vercel Analytics integration for Astro
+---
+
+<script>
+  import { inject } from '@vercel/analytics';
+  
+  inject({
+    framework: '',
+    mode: import.meta.env.DEV ? 'development' : 'production'
+  });
+</script>
