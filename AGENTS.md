@@ -204,10 +204,31 @@ All content types support i18n with `multiple_folders` structure:
 
 ## Git Workflow
 
+### Before Every Commit
+**ALWAYS run these commands before committing:**
+
+```bash
+# 1. Run all checks (TypeScript + Biome formatting/linting)
+npm run check
+
+# 2. Run tests
+npm test
+```
+
+These commands will:
+- Check TypeScript types with `astro check`
+- Format and lint code with Biome
+- Auto-fix formatting issues
+- Run all unit tests with Vitest
+
+Only commit if both commands pass without errors.
+
+### Additional Guidelines
 - **Dependency updates**: Renovate configured (see `renovate.json`)
 - **Security**: Check `SECURITY.md` for vulnerability reporting
-- Commit changes after running `npm run check`
-- Ensure tests pass with `npm test`
+- Use conventional commit format: `type(scope): message`
+  - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+  - Example: `fix(header): improve button click areas`
 
 ## Common Tasks
 
