@@ -1,6 +1,7 @@
 ---
 // Basic Layout for All Pages
 
+import { ClientRouter } from "astro:transitions";
 import Header from "@/components/Header.astro";
 import VercelAnalytics from "@/components/VercelAnalytics.astro";
 import LocaleHtmlHead from "@/components/i18n/LocaleHtmlHead.astro";
@@ -81,6 +82,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <link rel="preload" as="style" fetchpriority="high" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp&display=swap" media="print" onload={`this.media='all'`} />
 
+    <ClientRouter />
     <LocaleHtmlHead />
   </head>
 
@@ -97,7 +99,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <VercelAnalytics />
 
 
-<div class="custom-cursor"></div>
+<div class="custom-cursor" transition:persist></div>
 
 <script>
   import "@/scripts/custom-cursor";

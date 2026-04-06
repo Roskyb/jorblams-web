@@ -13,7 +13,7 @@ const currentPath = Astro.url.pathname.split("/").slice(2).join("/");
 ---
 
 <!-- Navigation Bar -->
-<nav class="fixed top-0 left-0 right-0 z-[100] px-8 py-6 border-b border-white/10 bg-black">
+<nav transition:animate="none" class="fixed top-0 left-0 right-0 z-[100] px-8 py-6 border-b border-white/10 bg-black">
   <div class="flex items-center justify-between">
     <!-- Language Selector -->
     <div class="relative">
@@ -111,76 +111,80 @@ const currentPath = Astro.url.pathname.split("/").slice(2).join("/");
 </div>
 
 <script>
-  // Drawer Menu
-  const menuButton = document.getElementById('menuButton');
-  const closeButton = document.getElementById('closeButton');
-  const drawer = document.getElementById('drawer');
-  const drawerOverlay = document.getElementById('drawerOverlay');
+  function initHeader() {
+    const menuButton = document.getElementById('menuButton');
+    const closeButton = document.getElementById('closeButton');
+    const drawer = document.getElementById('drawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
 
-  function openDrawer() {
-    drawer?.classList.remove('translate-x-full');
-    drawerOverlay?.classList.remove('opacity-0', 'pointer-events-none');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeDrawer() {
-    drawer?.classList.add('translate-x-full');
-    drawerOverlay?.classList.add('opacity-0', 'pointer-events-none');
-    document.body.style.overflow = '';
-  }
-
-  function toggleDrawer() {
-    const isOpen = !drawer?.classList.contains('translate-x-full');
-    if (isOpen) {
-      closeDrawer();
-    } else {
-      openDrawer();
+    function openDrawer() {
+      drawer?.classList.remove('translate-x-full');
+      drawerOverlay?.classList.remove('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = 'hidden';
     }
+
+    function closeDrawer() {
+      drawer?.classList.add('translate-x-full');
+      drawerOverlay?.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
+    }
+
+    function toggleDrawer() {
+      const isOpen = !drawer?.classList.contains('translate-x-full');
+      if (isOpen) {
+        closeDrawer();
+      } else {
+        openDrawer();
+      }
+    }
+
+    menuButton?.addEventListener('click', toggleDrawer);
+    closeButton?.addEventListener('click', closeDrawer);
+    drawerOverlay?.addEventListener('click', closeDrawer);
+
+    // Language Dropdown
+    const langButton = document.getElementById('langButton');
+    const langDropdown = document.getElementById('langDropdown');
+
+    function openLangDropdown() {
+      langDropdown?.classList.remove('opacity-0', 'pointer-events-none');
+      langButton?.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeLangDropdown() {
+      langDropdown?.classList.add('opacity-0', 'pointer-events-none');
+      langButton?.setAttribute('aria-expanded', 'false');
+    }
+
+    langButton?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !langDropdown?.classList.contains('opacity-0');
+      if (isOpen) {
+        closeLangDropdown();
+      } else {
+        openLangDropdown();
+      }
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!langButton?.contains(e.target as Node) && !langDropdown?.contains(e.target as Node)) {
+        closeLangDropdown();
+      }
+    });
+
+    // Close drawer on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDrawer();
+        closeLangDropdown();
+      }
+    });
   }
 
-  menuButton?.addEventListener('click', toggleDrawer);
-  closeButton?.addEventListener('click', closeDrawer);
-  drawerOverlay?.addEventListener('click', closeDrawer);
-
-  // Close drawer on escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeDrawer();
-      closeLangDropdown();
-    }
-  });
-
-  // Language Dropdown
-  const langButton = document.getElementById('langButton');
-  const langDropdown = document.getElementById('langDropdown');
-
-  function openLangDropdown() {
-    langDropdown?.classList.remove('opacity-0', 'pointer-events-none');
-    langButton?.setAttribute('aria-expanded', 'true');
-  }
-
-  function closeLangDropdown() {
-    langDropdown?.classList.add('opacity-0', 'pointer-events-none');
-    langButton?.setAttribute('aria-expanded', 'false');
-  }
-
-  langButton?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = !langDropdown?.classList.contains('opacity-0');
-    if (isOpen) {
-      closeLangDropdown();
-    } else {
-      openLangDropdown();
-    }
-  });
-
-  // Close dropdown when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!langButton?.contains(e.target as Node) && !langDropdown?.contains(e.target as Node)) {
-      closeLangDropdown();
-    }
-  });
-
+  // Run on initial load and after each view transition navigation
+  initHeader();
+  document.addEventListener('astro:after-swap', initHeader);
 </script>
 
 <style>
