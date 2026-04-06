@@ -41,12 +41,7 @@ export const getStaticPaths = () => localeParams;
       <!-- Language Selector -->
       <section class="mt-16 pt-12 border-t border-white/10">
         <h3 class="text-sm text-gray-500 mb-6 uppercase tracking-wider">
-          {
-            t({
-              en: "View in other languages",
-              es: "Ver en otros idiomas",
-            })
-          }
+          {t("404.other.languages")}
         </h3>
 
         <ul class="flex gap-4 justify-center flex-wrap">
@@ -56,7 +51,7 @@ export const getStaticPaths = () => localeParams;
                 <a
                   href={`/${lang}/`}
                   data-lang-path={lang}
-                  onclick={`localStorage.selectedLang = "${lang}"`}
+                  data-lang={lang}
                   dir={LOCALES[lang].dir || null}
                   class="text-sm px-4 py-2 rounded-full border border-white bg-transparent text-white hover:bg-white hover:text-black transition-all duration-300"
                 >
@@ -84,4 +79,10 @@ export const getStaticPaths = () => localeParams;
 
     localStorage.removeItem("userAccessPath");
   }
+
+  document.querySelectorAll("a[data-lang]").forEach((a) => {
+    a.addEventListener("click", () => {
+      localStorage.selectedLang = a.getAttribute("data-lang");
+    });
+  });
 </script>

@@ -16,6 +16,19 @@ export const common: {
 		"language-selector.label": "Select Language",
 		"back.to.top": "Back to top",
 		hi: "Hello",
+		"nav.home": "Home",
+		"nav.about": "About",
+		"nav.blog": "Blog",
+		"nav.projects": "Projects",
+		"nav.projects.viewAll": "View All",
+		"nav.connect": "Connect",
+		"nav.connect.email": "Email",
+		"nav.about.description":
+			"Full-stack developer passionate about creating modern web applications with TypeScript.",
+		"projects.empty": "No projects yet. Check back soon!",
+		"blog.subtitle":
+			"Thoughts, tutorials, and insights about web development",
+		"blog.empty": "No posts yet. Check back soon!",
 	},
 	es: {
 		"header.auth": "Iniciar Sesión",
@@ -29,5 +42,18 @@ export const common: {
 		"language-selector.label": "Seleccionar Idioma",
 		"back.to.top": "Volver al principio",
 		hi: "Hola",
+		"nav.home": "Inicio",
+		"nav.about": "Acerca de",
+		"nav.blog": "Blog",
+		"nav.projects": "Proyectos",
+		"nav.projects.viewAll": "Ver Todos",
+		"nav.connect": "Conectar",
+		"nav.connect.email": "Email",
+		"nav.about.description":
+			"Desarrollador full-stack apasionado por crear aplicaciones web modernas con TypeScript.",
+		"projects.empty": "Aún no hay proyectos. ¡Vuelve pronto!",
+		"blog.subtitle":
+			"Reflexiones, tutoriales y conocimientos sobre desarrollo web",
+		"blog.empty": "Aún no hay publicaciones. ¡Vuelve pronto!",
 	},
 };

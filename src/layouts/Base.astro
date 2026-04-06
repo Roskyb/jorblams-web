@@ -62,7 +62,17 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <meta property="og:description" content={localeDescription} />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:locale" content={LOCALES[locale].lang || locale} />
+    <meta property="og:image" content={`${Astro.site}og-image.png`} />
+    <meta property="og:image:alt" content={localeTitle} />
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={localeTitle} />
+    <meta name="twitter:description" content={localeDescription} />
+    <meta name="twitter:image" content={`${Astro.site}og-image.png`} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={Astro.url} />
 
     <!-- External Resource -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

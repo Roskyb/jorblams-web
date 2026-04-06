@@ -68,13 +68,13 @@ const currentPath = Astro.url.pathname.split("/").slice(2).join("/");
     <!-- Menu Links -->
     <nav class="flex flex-col gap-6">
       <a href={getRelativeLocaleUrl(locale, "/")} class="menu-link text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
-        {t({ en: "Home", es: "Inicio" })}
+        {t("nav.home")}
       </a>
       <a href={getRelativeLocaleUrl(locale, "/about")} class="menu-link text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
-        {t({ en: "About", es: "Acerca de" })}
+        {t("nav.about")}
       </a>
       <a href={getRelativeLocaleUrl(locale, "/blog")} class="menu-link text-white text-6xl font-medium hover:text-amber-200 hover:scale-110 transition-all duration-200 origin-left">
-        {t({ en: "Blog", es: "Blog" })}
+        {t("nav.blog")}
       </a>
     </nav>
 
@@ -82,23 +82,23 @@ const currentPath = Astro.url.pathname.split("/").slice(2).join("/");
     <div class="mt-auto pt-12">
       <div class="grid grid-cols-3 gap-8 text-sm">
         <div>
-          <h3 class="text-white font-medium mb-4">{t({ en: "About", es: "Acerca de" })}</h3>
+          <h3 class="text-white font-medium mb-4">{t("nav.about")}</h3>
           <p class="text-gray-400 text-xs leading-relaxed">
-            {t({ en: "Full-stack developer passionate about creating modern web applications with TypeScript.", es: "Desarrollador full-stack apasionado por crear aplicaciones web modernas con TypeScript." })}
+            {t("nav.about.description")}
           </p>
         </div>
         <div>
-          <h3 class="text-white font-medium mb-4">{t({ en: "Projects", es: "Proyectos" })}</h3>
+          <h3 class="text-white font-medium mb-4">{t("nav.projects")}</h3>
           <ul class="space-y-2">
-            <li><a href={getRelativeLocaleUrl(locale, "/#projects")} class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">{t({ en: "View All", es: "Ver Todos" })}</a></li>
+            <li><a href={getRelativeLocaleUrl(locale, "/#projects")} class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">{t("nav.projects.viewAll")}</a></li>
             <li><a href={AUTHOR.github} target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">GitHub</a></li>
             <li><a href={AUTHOR.npm} target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">NPM</a></li>
           </ul>
         </div>
         <div>
-          <h3 class="text-white font-medium mb-4">{t({ en: "Connect", es: "Conectar" })}</h3>
+          <h3 class="text-white font-medium mb-4">{t("nav.connect")}</h3>
           <ul class="space-y-2">
-            <li><a href={`mailto:${AUTHOR.email}`} class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">{t({ en: "Email", es: "Email" })}</a></li>
+            <li><a href={`mailto:${AUTHOR.email}`} class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">{t("nav.connect.email")}</a></li>
             <li><a href={AUTHOR.linkedin} target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">LinkedIn</a></li>
             <li><a href={AUTHOR.github} target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">GitHub</a></li>
           </ul>
