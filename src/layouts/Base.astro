@@ -1,7 +1,6 @@
 ---
 // Basic Layout for All Pages
 
-import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import VercelAnalytics from "@/components/VercelAnalytics.astro";
 import LocaleHtmlHead from "@/components/i18n/LocaleHtmlHead.astro";
@@ -86,8 +85,6 @@ const localeDescription = description || t(SITE_DESCRIPTION);
       <slot />
     </main>
 
-    <Footer />
-
     { import.meta.env.DEV && <style>:root { scroll-behavior: auto }</style> }
 
     <VercelAnalytics />
@@ -100,7 +97,6 @@ const localeDescription = description || t(SITE_DESCRIPTION);
   const cursor: HTMLElement | null = document.querySelector('.custom-cursor');
   const triggers = document.querySelectorAll('.custom-cursor-trigger');
   let isMorphing = false;
-  let currentButton = null;
   
   document.addEventListener('mousemove', (e) => {
     if (cursor && !isMorphing) {
@@ -111,9 +107,8 @@ const localeDescription = description || t(SITE_DESCRIPTION);
   
   // Handle custom cursor triggers (buttons)
   triggers.forEach(trigger => {
-    trigger.addEventListener('mouseenter', (e) => {
+    trigger.addEventListener('mouseenter', () => {
       isMorphing = true;
-      currentButton = e.target;
       
       const rect = trigger.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
@@ -133,7 +128,6 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     
     trigger.addEventListener('mouseleave', () => {
       isMorphing = false;
-      currentButton = null;
       cursor?.classList.remove('morphing');
       if (cursor) {
         cursor.style.transition = 'width 0.2s cubic-bezier(0.4, 0, 0.2, 1), height 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.2s cubic-bezier(0.4, 0, 0.2, 1)';

@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @import "@fontsource-variable/figtree";
 
+:root {
+	--color-main: #ffffff;
+	--color-base: #000000;
+	--color-accent: #fbbf24;
+	--color-theme: #fde68a;
+	--color-caution: #ef4444;
+	--sp-s: 0.75rem;
+	--sp-m: 1.5rem;
+	--sp-l: 3rem;
+}
+
 body {
 	font-family: "Figtree Variable", sans-serif;
 }
