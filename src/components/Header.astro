@@ -17,7 +17,7 @@ const currentPath = Astro.url.pathname.split("/").slice(2).join("/");
   <div class="flex items-center justify-between">
     <!-- Language Selector -->
     <div class="relative">
-      <button id="langButton" class="flex items-center gap-2 text-white hover:text-amber-200 transition-colors p-2 -ml-2" aria-label="Select language">
+      <button id="langButton" class="flex items-center gap-2 text-white hover:text-amber-200 transition-colors p-2 -ml-2" aria-label={t("select.language")} aria-expanded="false" aria-haspopup="listbox">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="10"></circle>
           <line x1="2" y1="12" x2="22" y2="12"></line>
@@ -27,10 +27,12 @@ const currentPath = Astro.url.pathname.split("/").slice(2).join("/");
       </button>
       
       <!-- Language Dropdown -->
-      <div id="langDropdown" class="absolute top-full left-0 mt-2 bg-neutral-900 border border-white/10 rounded-lg shadow-xl opacity-0 pointer-events-none transition-opacity duration-200 min-w-[120px]">
+      <div id="langDropdown" role="listbox" aria-label={t("select.language")} class="absolute top-full left-0 mt-2 bg-neutral-900 border border-white/10 rounded-lg shadow-xl opacity-0 pointer-events-none transition-opacity duration-200 min-w-[120px]">
         {Object.entries(LOCALES).map(([lang, { label }]) => (
           <a
             href={`/${lang}/${currentPath}`}
+            role="option"
+            aria-selected={lang === locale}
             class={`block px-4 py-2 text-sm text-white hover:bg-neutral-800 hover:text-amber-200 transition-colors first:rounded-t-lg last:rounded-b-lg ${lang === locale ? 'bg-neutral-800 text-amber-200' : ''}`}
           >
             {label}
@@ -54,7 +56,7 @@ const currentPath = Astro.url.pathname.split("/").slice(2).join("/");
 <div id="drawerOverlay" class="fixed inset-0 bg-black/50 z-60 opacity-0 pointer-events-none transition-opacity duration-300"></div>
 
 <!-- Drawer Menu -->
-<div id="drawer" class="fixed top-0 right-0 h-full w-full md:w-1/2 bg-neutral-900 z-70 transform translate-x-full transition-transform duration-300 ease-in-out">
+<div id="drawer" role="dialog" aria-label="Navigation menu" class="fixed top-0 right-0 h-full w-full md:w-1/2 bg-neutral-900 z-70 transform translate-x-full transition-transform duration-300 ease-in-out">
   <div class="flex flex-col h-full p-8">
     <!-- Close Button -->
     <div class="flex justify-end mb-12">
@@ -154,10 +156,12 @@ const currentPath = Astro.url.pathname.split("/").slice(2).join("/");
 
   function openLangDropdown() {
     langDropdown?.classList.remove('opacity-0', 'pointer-events-none');
+    langButton?.setAttribute('aria-expanded', 'true');
   }
 
   function closeLangDropdown() {
     langDropdown?.classList.add('opacity-0', 'pointer-events-none');
+    langButton?.setAttribute('aria-expanded', 'false');
   }
 
   langButton?.addEventListener('click', (e) => {
