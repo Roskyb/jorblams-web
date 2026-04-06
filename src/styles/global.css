@@ -16,6 +16,21 @@ body {
 	font-family: "Figtree Variable", sans-serif;
 }
 
+.material-icons-sharp {
+	font-family: "Material Icons Sharp";
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px;
+	display: inline-block;
+	line-height: 1;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+	-webkit-font-smoothing: antialiased;
+}
+
 html {
 	scroll-behavior: smooth !important;
 }
