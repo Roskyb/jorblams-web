@@ -2,9 +2,9 @@ import {
 	type SchemaContext,
 	defineCollection,
 	reference,
-	z,
 } from "astro:content";
 import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const blog = defineCollection({
 	loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/data/blog" }),
