@@ -1,0 +1,214 @@
+---
+title: How to use console agents to organize your GitHub workflow
+description: Learn how to manage issues, pull requests and GitHub tickets directly from the terminal using AI agents like Claude Code
+date: 2026-04-01T10:00:00
+lastModified: 2026-04-01T10:00:00
+author: en/john-doe
+cover: /src/assets/images/image-mesh-gradient.png
+tags:
+  - en/ai
+  - en/agents
+  - en/project-management
+category: en/desarrollo
+draft: false
+---
+
+## The real problem: it's not writing code, it's everything else
+
+If you work with GitHub, you already know the ritual: create an issue, assign labels, open a branch, make commits with coherent messages, create the PR, link the issue, write the description, request review. It's the work nobody wants to do but that makes the difference between an organized project and chaos.
+
+Most developers who start using AI use it to generate code. And that's fine, but they're missing the most valuable part: **automating the management workflow** that eats up your time every day.
+
+## What is a console agent
+
+A console agent is an AI tool that lives in your terminal. It's not a chat in the browser, it's not autocomplete in your editor. It's a program that can:
+
+- Read and modify files in your project
+- Execute commands in your terminal
+- Interact with external APIs (like GitHub's)
+- Make decisions based on your code's context
+
+Examples of console agents: [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview), [GitHub Copilot CLI](https://docs.github.com/en/copilot/github-copilot-in-the-cli/about-github-copilot-in-the-cli), among others. In this article I use Claude Code as a reference, but the concepts apply to any agent with terminal access.
+
+## The basics: `gh` as the bridge between the agent and GitHub
+
+Before an agent can manage your GitHub workflow, it needs a tool that talks to the GitHub API. That tool is [`gh`](https://cli.github.com/), GitHub's official CLI.
+
+```bash
+# Install gh
+brew install gh       # macOS
+winget install gh     # Windows
+sudo apt install gh   # Ubuntu/Debian
+
+# Authenticate
+gh auth login
+```
+
+Once `gh` is installed and authenticated, the agent can use it like any other command. This is what opens the door to everything that comes next.
+
+## Creating issues from a conversation
+
+Instead of going to the browser, opening GitHub, clicking "New Issue", filling out the form, and going back to your code, you tell the agent what you need:
+
+> "Create an issue to add dark mode support to the settings page"
+
+The agent builds and executes something like:
+
+```bash
+gh issue create \
+  --title "feat: add dark mode support to settings page" \
+  --body "## Description
+Add a dark mode toggle to the settings page that persists the user's preference.
+
+## Acceptance Criteria
+- [ ] Toggle switch in settings
+- [ ] Preference saved in localStorage
+- [ ] Applies immediately without reload" \
+  --label "enhancement"
+```
+
+The important thing: **you describe the intent, the agent handles the format and structure**. You can always review what it's going to execute before it does.
+
+## From issue to PR in a single session
+
+Where things get interesting is when you chain operations. A typical flow would be:
+
+1. **Create the issue** with the change description
+2. **Create a branch** linked to the issue
+3. **Implement the change** (the agent writes or modifies the code)
+4. **Make commits** with messages that follow the project's conventions
+5. **Create the PR** linked to the issue, with a structured description
+
+All without leaving the terminal. The agent has the full context: it knows which issue it created, which branch it's on, which files it modified, and what conventions your project follows.
+
+```bash
+# The agent can do all of this for you
+gh issue create --title "fix: resolve date parsing in blog posts" --body "..."
+git checkout -b fix/date-parsing-blog-posts
+# ... modifies files ...
+git add src/utils/date.ts
+git commit -m "fix: handle timezone offset in date parsing"
+gh pr create --title "fix: resolve date parsing in blog posts" \
+  --body "Closes #42
+
+## Summary
+- Fixed timezone offset handling in date parser
+
+## Test plan
+- [ ] Verify dates render correctly in UTC+0 and UTC-3"
+```
+
+## Organizing existing issues
+
+The agent can also help you manage what you already have. For example:
+
+> "Review the open issues without labels and suggest a classification"
+
+The agent runs `gh issue list`, analyzes the titles and descriptions, and proposes labels for each one. You approve or adjust.
+
+> "Close all issues that are already resolved in the latest release"
+
+It compares the release commits with the open issues and closes the ones that match.
+
+## The key pattern: reusable instructions
+
+This is where console agents differ from a simple AI chat. You can define **persistent instructions** that the agent automatically follows every time it performs a task.
+
+For example, you can tell the agent:
+
+- "Every PR must reference a GitHub issue"
+- "Commits follow conventional commits"
+- "PRs have Summary and Test Plan sections"
+- "Bug issues include reproduction steps"
+
+These instructions are saved in agent configuration files (like `CLAUDE.md` in Claude Code) and are applied automatically. It's like having a linter, but for your work process.
+
+```markdown
+<!-- Example instructions in CLAUDE.md -->
+## Pull Requests
+- Every PR must reference a GitHub issue
+- PR title must be under 70 characters
+- PR body must include Summary and Test Plan sections
+
+## Commits
+- Follow conventional commits: feat, fix, chore, docs, refactor
+- Keep commit messages concise and descriptive
+
+## Issues
+- Bug reports must include reproduction steps
+- Feature requests must include acceptance criteria
+```
+
+## Taking the workflow to the next level: creating your own commands
+
+Once you've found a workflow that works well for you or your team, the next step is **turning it into a reusable command**. In Claude Code, this is done through **custom slash commands**.
+
+A slash command is a markdown file that contains specific instructions for a task. You save it in your project's `.claude/commands/` folder (or in `~/.claude/commands/` to make it available across all your projects) and run it by typing `/command-name` in the console.
+
+### Example: a command for creating issues
+
+Let's say your team always creates issues with the same format. Instead of explaining it to the agent every time, you create a file:
+
+```markdown
+<!-- .claude/commands/new-issue.md -->
+Create a GitHub issue with the following format:
+
+- Title: type(scope): short description
+- Body with sections: ## Context, ## Acceptance Criteria, ## Technical Notes
+- Labels based on type: "bug" for fix, "enhancement" for feat
+- Assign to the active milestone if one exists
+
+The user will provide the issue description as an argument: $ARGUMENTS
+```
+
+Now any team member types `/new-issue add date filter to the post list` and the agent follows exactly the defined process.
+
+### Example: a command for preparing a PR
+
+```markdown
+<!-- .claude/commands/prep-pr.md -->
+Prepare a pull request for the current changes:
+
+1. Review changes with git diff
+2. Ensure all relevant files are staged
+3. Create the PR with gh pr create following these rules:
+   - Title follows conventional commits
+   - Body includes ## Summary and ## Test plan
+   - Links the related issue with "Closes #N" if one exists
+   - Adds reviewers if the project has CODEOWNERS
+```
+
+### Why this matters
+
+Custom commands turn team knowledge into **automated processes**. A new developer doesn't need to read a 20-page wiki about "how we do things" — they run the same commands as everyone else and the result is consistent.
+
+Also, since command files live in the repository, they're versioned with git. If the process changes, you update the file and the whole team has the new version.
+
+## What the agent should NOT do
+
+It's important to keep the human at the center of decisions. The agent is a tool, not the project lead.
+
+- **It shouldn't push without your approval**: always review before sending code to the remote
+- **It shouldn't close issues automatically**: you decide when something is truly resolved
+- **It shouldn't merge PRs**: human review is still essential
+- **It shouldn't create issues without context**: it needs to understand the problem before documenting it
+
+The rule is simple: **the agent executes, you lead**.
+
+## First steps if you've never used an agent
+
+If all of this sounds interesting but you don't know where to start:
+
+1. **Install `gh`** and authenticate with your GitHub account
+2. **Choose a console agent** (Claude Code is a good option to start with)
+3. **Start with a simple task**: "create an issue for this bug I found"
+4. **Observe what the agent does**: review the commands it runs before approving them
+5. **Add instructions gradually**: start with commit conventions, then PRs, then issues
+
+Don't try to automate everything at once. Start with what takes up the most of your time and expand from there.
+
+## Conclusion
+
+Console agents are not just code generators. They're assistants that can handle all the GitHub bureaucracy while you focus on what really matters: solving problems and writing good code.
+
+The key is understanding that **AI is a tool that you lead**. It's not about delegating everything, it's about stopping the manual work on repetitive tasks that already have a clear structure. 🚀
