@@ -3,6 +3,7 @@
 
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { LOCALES, type Lang, useTranslations } from "@/i18n";
+import { AUTHOR } from "@/consts";
 const t = useTranslations(Astro.currentLocale as Lang);
 
 const locale = Astro.currentLocale as Lang;
@@ -90,16 +91,16 @@ const currentPath = Astro.url.pathname.split("/").slice(2).join("/");
           <h3 class="text-white font-medium mb-4">{t({ en: "Projects", es: "Proyectos" })}</h3>
           <ul class="space-y-2">
             <li><a href={getRelativeLocaleUrl(locale, "/#projects")} class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">{t({ en: "View All", es: "Ver Todos" })}</a></li>
-            <li><a href="https://github.com/roskyb" target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">GitHub</a></li>
-            <li><a href="https://www.npmjs.com/~roskyb" target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">NPM</a></li>
+            <li><a href={AUTHOR.github} target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">GitHub</a></li>
+            <li><a href={AUTHOR.npm} target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">NPM</a></li>
           </ul>
         </div>
         <div>
           <h3 class="text-white font-medium mb-4">{t({ en: "Connect", es: "Conectar" })}</h3>
           <ul class="space-y-2">
-            <li><a href="mailto:jorge.blanco.gil.00@gmail.com" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">{t({ en: "Email", es: "Email" })}</a></li>
-            <li><a href="https://www.linkedin.com/in/jorge-blanco-gil-b715182a6/" target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">LinkedIn</a></li>
-            <li><a href="https://github.com/roskyb" target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">GitHub</a></li>
+            <li><a href={`mailto:${AUTHOR.email}`} class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">{t({ en: "Email", es: "Email" })}</a></li>
+            <li><a href={AUTHOR.linkedin} target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">LinkedIn</a></li>
+            <li><a href={AUTHOR.github} target="_blank" rel="noopener noreferrer" class="text-gray-400 text-xs underline hover:text-amber-200 underline-offset-4 transition-all duration-200">GitHub</a></li>
           </ul>
         </div>
       </div>

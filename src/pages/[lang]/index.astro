@@ -1,6 +1,7 @@
 ---
 import { LOCALES, type Lang, useTranslations } from "@/i18n";
 import Layout from "@/layouts/Base.astro";
+import { AUTHOR } from "@/consts";
 const t = useTranslations(Astro.currentLocale as Lang);
 import { getRelativeLocaleUrl } from "astro:i18n";
 
@@ -34,8 +35,8 @@ export const getStaticPaths = () =>
       <div class="mb-20">
         <p class="text-amber-200 text-sm font-medium mb-4 tracking-wide">{t("greeting").toUpperCase()}</p>
         <h1 class="text-7xl md:text-8xl font-bold mb-6 leading-tight">
-          Jorge<br />
-          Blanco
+          {AUTHOR.firstName}<br />
+          {AUTHOR.lastName}
         </h1>
         <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mb-8">
           {t("role")}
@@ -164,13 +165,13 @@ export const getStaticPaths = () =>
           {t("contact.description")}
         </p>
         <div class="flex flex-wrap gap-6">
-          <a href="mailto:jorge.blanco.gil.00@gmail.com" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
-            jorge.blanco.gil.00@gmail.com
+          <a href={`mailto:${AUTHOR.email}`} class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+            {AUTHOR.email}
           </a>
-          <a href="https://github.com/roskyb" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+          <a href={AUTHOR.github} class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
             GitHub
           </a>
-          <a href="https://www.linkedin.com/in/jorge-blanco-gil-b715182a6/" class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
+          <a href={AUTHOR.linkedin} class="text-gray-400 hover:text-amber-200 underline underline-offset-4 transition-colors duration-200">
             LinkedIn
           </a>
         </div>

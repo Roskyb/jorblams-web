@@ -64,7 +64,7 @@ export const getStaticPaths = () =>
                     {/* Tags */}
                     {post.data.tags && post.data.tags.length > 0 && (
                       <div class="flex flex-wrap gap-2">
-                        {post.data.tags.map((tag: any) => {
+                        {post.data.tags.map((tag) => {
                           const tagName = tag.id.split('/').pop();
                           return (
                             <span class="text-xs px-3 py-1 rounded-full border border-white bg-transparent text-white">

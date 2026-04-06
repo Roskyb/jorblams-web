@@ -1,6 +1,7 @@
 ---
 import { LOCALES, type Lang, useTranslations } from "@/i18n";
 import Layout from "@/layouts/Base.astro";
+import { AUTHOR } from "@/consts";
 
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
@@ -78,7 +79,7 @@ export const getStaticPaths = () =>
           {t("cta.description")}
         </p>
         <a 
-          href="mailto:jorge.blanco.gil.00@gmail.com" 
+          href={`mailto:${AUTHOR.email}`}
           class="custom-cursor-trigger btn-trigger btn-secondary"
         >
           <span class="relative z-10">{t("cta.button")}</span>

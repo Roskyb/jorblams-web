@@ -6,6 +6,15 @@ import type { Multilingual } from "@/i18n";
 export const BRAND_NAME: string | Multilingual = "Jorblams";
 export const SITE_TITLE: string | Multilingual = "jorblams";
 
+export const AUTHOR = {
+	firstName: "Jorge",
+	lastName: "Blanco",
+	email: "jorge.blanco.gil.00@gmail.com",
+	github: "https://github.com/roskyb",
+	npm: "https://www.npmjs.com/~roskyb",
+	linkedin: "https://www.linkedin.com/in/jorge-blanco-gil-b715182a6/",
+} as const;
+
 export const SITE_DESCRIPTION: string | Multilingual = {
 	en: "Full-stack developer passionate about creating modern web applications with TypeScript, Angular, and NestJS.",
 	es: "Desarrollador full-stack apasionado por crear aplicaciones web modernas con TypeScript, Angular y NestJS.",
