@@ -6,9 +6,16 @@ import Layout from "@/layouts/Base.astro";
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
 
+import { getEntries } from "astro:content";
+
 const posts = (await getCollection("blog"))
 	.filter((post) => post.id.split("/")[0] === locale && !post.data.draft)
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Collect all unique tags with their display titles
+const allTagRefs = posts.flatMap((p) => p.data.tags);
+const allTagEntries = await getEntries(allTagRefs);
+const uniqueTags = [...new Map(allTagEntries.map((t) => [t.id, t])).values()];
 
 const title = t({
 	en: "Blog",
@@ -32,15 +39,36 @@ export const getStaticPaths = () =>
         </p>
       </div>
 
+      <!-- Tag Filter -->
+      {uniqueTags.length > 0 && (
+        <div class="flex flex-wrap gap-3 mb-12">
+          <button
+            data-tag-filter="all"
+            class="tag-filter active text-sm px-4 py-2 rounded-full border border-amber-200 bg-amber-200 text-black hover:bg-amber-300 hover:border-amber-300 transition-all duration-200"
+          >
+            {t({ en: "All", es: "Todos" })}
+          </button>
+          {uniqueTags.map((tag) => (
+            <button
+              data-tag-filter={tag.id.split("/").pop()}
+              class="tag-filter text-sm px-4 py-2 rounded-full border border-white/30 bg-transparent text-white hover:border-amber-200 hover:text-amber-200 transition-all duration-200"
+            >
+              {tag.data.title}
+            </button>
+          ))}
+        </div>
+      )}
+
       <!-- Posts List -->
       {posts.length > 0 ? (
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-12">
           {posts.map((post) => {
             const [, ...id] = post.id.split("/");
             const postUrl = `/${locale}/blog/${id.join("/")}/`;
-            
+            const postTags = post.data.tags.map((t) => t.id.split("/").pop()).join(",");
+
             return (
-              <article class="group">
+              <article class="group" data-tags={postTags}>
                 <a href={postUrl} class="flex flex-col md:flex-row gap-4 items-start">
                   <!-- Text Content (Left) -->
                   <div class="flex-1">
@@ -99,3 +127,37 @@ export const getStaticPaths = () =>
     </div>
   </main>
 </Layout>
+
+<script>
+  function initTagFilter() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>("[data-tag-filter]");
+    const articles = document.querySelectorAll<HTMLElement>("#posts-grid article[data-tags]");
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tag = btn.dataset.tagFilter;
+
+        // Update active button styles
+        buttons.forEach((b) => {
+          b.classList.remove("active", "bg-amber-200", "bg-amber-300", "text-black", "border-amber-200", "border-amber-300", "hover:bg-amber-300", "hover:border-amber-300");
+          b.classList.add("bg-transparent", "text-white", "border-white/30", "hover:border-amber-200", "hover:text-amber-200");
+        });
+        btn.classList.add("active", "bg-amber-200", "text-black", "border-amber-200", "hover:bg-amber-300", "hover:border-amber-300");
+        btn.classList.remove("bg-transparent", "text-white", "border-white/30", "hover:border-amber-200", "hover:text-amber-200");
+
+        // Filter posts
+        articles.forEach((article) => {
+          const tags = article.dataset.tags?.split(",") ?? [];
+          if (tag === "all" || tags.includes(tag!)) {
+            article.style.display = "";
+          } else {
+            article.style.display = "none";
+          }
+        });
+      });
+    });
+  }
+
+  initTagFilter();
+  document.addEventListener("astro:after-swap", initTagFilter);
+</script>
