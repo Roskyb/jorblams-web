@@ -1,0 +1,258 @@
+---
+title: "Sub-agents and TDD: the workflow that changes how you work with Claude Code"
+description: Learn how to use sub-agents to split work into parallel tasks and how TDD becomes the best ally of an AI agent
+date: 2026-04-06T10:00:00
+lastModified: 2026-04-06T10:00:00
+author: en/john-doe
+cover: /src/assets/images/image-mesh-gradient.png
+tags:
+  - en/ai
+  - en/agents
+  - en/typescript
+category: en/desarrollo
+draft: false
+---
+
+## The most common mistake when using AI agents
+
+Most developers use Claude Code (or any console agent) like a chat: they ask for something, wait for the response, review it, ask for something else. It's a linear, one-to-one flow where you and the agent take turns.
+
+It works, but it's like having a team of 10 people and only giving work to one while the rest wait.
+
+The most effective way to work with Claude Code is by using **sub-agents**: parallel processes that the main agent launches to solve independent tasks at the same time. And the key to making this work well is **TDD** — tests that act as both specification and safety net.
+
+## What is a sub-agent
+
+A sub-agent is a separate instance of Claude that is launched from your main session. Each sub-agent:
+
+- Has its own context (it doesn't share the conversation with the main agent)
+- Receives specific instructions and returns a result
+- Can run in parallel with other sub-agents
+- Inherits the project's conventions (reads the `CLAUDE.md`)
+
+Think of the main agent as a **tech lead** who distributes tasks, and the sub-agents as the **developers** who execute them. You don't launch sub-agents manually — you tell the main agent what you need and it decides when and how to delegate them.
+
+## Why TDD is an agent's best friend
+
+When an agent writes code, you need a way to verify it did a good job. You can review manually, but that doesn't scale — especially when multiple sub-agents are working in parallel.
+
+Tests solve this elegantly: they act as an **automatic contract** between what you asked for and what the agent delivered. If the tests pass, the code works. If they don't, the agent keeps iterating until it gets it right.
+
+> The test is the specification the machine understands. You don't need to write paragraphs explaining what the code should do — a test demonstrates it in a few lines.
+
+The key difference from traditional TDD is that **you don't need to write the tests by hand**. You describe what you want to achieve, and the agent generates both the tests and the implementation — but in that order. Tests first, then the code that makes them pass.
+
+## The workflow: how to orchestrate sub-agents
+
+The optimal flow isn't "ask the agent something and wait." It's a structured process in phases where you lead and the agent orchestrates. Here's how it works:
+
+### Phase 1: Describe your intent
+
+Everything starts with a clear description of what you want to achieve. It doesn't need to be technical or detailed — what matters is the **what** and the **why**.
+
+> "I want to add a tag system to the blog. Each post can have multiple tags, and users should be able to filter posts by tag from a dedicated page."
+
+With this information, the agent can explore your codebase, understand the current architecture, and propose a plan.
+
+### Phase 2: The agent explores and proposes
+
+Before writing a single line of code, the agent (or a dedicated sub-agent) investigates:
+
+- How the project is structured today
+- Which files would be affected
+- What existing patterns it should follow
+- What risks or dependencies exist
+
+Then it presents a **proposal**: what it's going to do, how it's going to do it, and which tasks are independent of each other.
+
+```
+Proposal: tag system
+
+1. Create TagBadge component (visual, independent)
+2. Create filterByTag function (logic, independent)
+3. Create /tags/[tag] page (depends on 1 and 2)
+
+Tasks 1 and 2 can run in parallel.
+Task 3 runs after.
+```
+
+This is where you step in: **you review the proposal, adjust if something doesn't convince you, and give the OK**. This pause is essential — it prevents the agent from going down the wrong path before writing code.
+
+### Phase 3: Tests first, implementation after
+
+Once the proposal is approved, the agent generates tests for each task. This happens before any implementation:
+
+```typescript
+// The agent generates this based on the proposal
+describe("filterByTag", () => {
+  test("returns only posts with matching tag", () => {
+    const posts = [
+      { title: "Post A", tags: ["typescript", "angular"] },
+      { title: "Post B", tags: ["react"] },
+    ];
+    expect(filterByTag(posts, "typescript")).toEqual([posts[0]]);
+  });
+
+  test("returns empty array when no posts match", () => {
+    const posts = [{ title: "Post A", tags: ["react"] }];
+    expect(filterByTag(posts, "angular")).toEqual([]);
+  });
+});
+```
+
+Why does the agent write the tests and not you? Because the agent already has the context of the proposal, the project's types, and the conventions. But — and this is key — **you review the tests before it implements**. If a test doesn't cover a case you care about, you say so. If a test doesn't make sense, you remove it.
+
+Tests are the contract. Once you approve them, the agent has a clear and measurable goal.
+
+### Phase 4: Sub-agents implement in parallel
+
+Now the main agent acts as an **orchestrator**: it launches sub-agents for the independent tasks. Each sub-agent receives:
+
+- The tests it needs to make pass
+- The project's conventions (from `CLAUDE.md`)
+- Specific instructions about which files to create or modify
+
+For this to happen, you don't need to know any special commands. You just need to tell the agent you want parallel work. A concrete example:
+
+> "I've approved the tests. Now implement tasks 1 and 2 in parallel, each with its own sub-agent. We'll leave task 3 for later, since it depends on the first two."
+
+Claude Code will interpret this instruction and launch two internal sub-agents. Each one works in isolation: it has its own context, reads its corresponding tests, implements the code, runs the tests, and reports the result to the main agent.
+
+You don't see the sub-agents directly — the main agent shows you progress and results as they finish. If one fails, you can decide whether the agent retries or whether you prefer to step in.
+
+The key is in the initial instruction. Let's compare:
+
+**Too vague** — the agent will probably do everything sequentially:
+> "Implement the tags"
+
+**Clear and directed** — the agent understands it should parallelize:
+> "Implement task 1 (TagBadge) and task 2 (filterByTag) in parallel with independent sub-agents. Each one must run its tests before reporting it's done."
+
+You don't need to know how the Agent tool works internally. You just need to communicate your intent clearly: what tasks, in what order, and what success criteria each one has.
+
+### Phase 5: Verification
+
+When the sub-agents finish, the main agent (or a verifier sub-agent) compares the results against the original proposal:
+
+- Do all tests pass?
+- Does the implementation follow the proposed design?
+- Were the project's conventions respected?
+
+If something fails, the agent iterates automatically. It only involves you if it needs a decision it can't make on its own.
+
+### Phase 6: Your final review
+
+At this point, the code is implemented and the tests pass. Your job is the **final review**:
+
+- Review the diffs — does the code make sense?
+- Run the application — does it work as you expected?
+- Verify there are no side effects
+
+If something isn't right, ask for concrete adjustments. Instead of "improve this", say "extract the filtering logic into a pure function in `src/utils/`".
+
+## When to use sub-agents and when not to
+
+Not everything needs sub-agents. Using them for trivial tasks adds unnecessary complexity.
+
+| Situation | Approach |
+|-----------|----------|
+| Implementing 3+ independent features | Sub-agents |
+| Refactoring a single file | Direct |
+| Creating tests + implementation in parallel | Sub-agents |
+| Quick bug fix | Direct |
+| Migrating multiple modules | Sub-agents |
+| Configuration change | Direct |
+
+The rule: **if tasks are independent and large enough to justify their own context, use sub-agents.**
+
+## Guidelines for getting the most out of it
+
+### Review the proposal before approving it
+
+The proposal phase is your highest-leverage point. A mistake here multiplies across all subsequent phases. Take a minute to verify the plan makes sense before giving the OK.
+
+### Review the tests before implementation
+
+Tests define what's going to be built. If a test is poorly designed, the implementation will be technically correct but functionally useless. Make sure the tests cover the cases you care about — especially edge cases.
+
+### Step in when the agent makes architectural decisions
+
+If the agent decides to create an abstraction you're not convinced by, or chooses a pattern that isn't used in your project, tell it during the proposal or design phase — not after implementation.
+
+### Ask it to explain decisions, not just the code
+
+When the agent finishes, don't just ask for the diff. Ask it to explain **why** it made certain decisions. "Why did you create a class instead of a function?" gives you much more information than reading the code alone.
+
+### Use `CLAUDE.md` to avoid repeating yourself
+
+If you find yourself saying the same thing every session ("use vitest", "follow conventional commits", "don't use any"), that's a sign it should be in your `CLAUDE.md`. Everything you put there is automatically applied to all sub-agents.
+
+### Start simple and scale
+
+Don't try to orchestrate 5 parallel sub-agents the first time. Start with the full flow for a single task: proposal → tests → implementation → verification. Once you understand the rhythm, add parallelism.
+
+## CLAUDE.md: the configuration your sub-agents inherit
+
+There's an important detail: sub-agents inherit the project's `CLAUDE.md`. This means the conventions you define there are automatically applied to all sub-agents.
+
+```markdown
+<!-- CLAUDE.md -->
+## Testing
+- Always run tests before considering a task done
+- Use vitest for unit tests
+- Follow AAA pattern (Arrange, Act, Assert)
+
+## Code Style
+- Use Biome for formatting
+- Tabs, double quotes
+- No unused imports
+
+## Workflow
+- For complex tasks, break the work into sub-agents
+- Follow TDD: generate tests first, get approval, then implement
+- Use parallel sub-agents for independent tasks
+- Always run tests before reporting a task as done
+```
+
+That last section is especially useful: you're telling the agent to **by default** use sub-agents and TDD for complex tasks. Without this instruction, the agent might try to do everything sequentially in a single conversation. With it, the agent knows it should divide, generate tests, and parallelize when it makes sense.
+
+You don't need to explain conventions to each sub-agent — it already knows them because it read the `CLAUDE.md`.
+
+## What you do NOT delegate
+
+Just like in a real team, there are things the lead doesn't delegate:
+
+- **The intent**: what you want to build and why
+- **Proposal approval**: you decide if the plan makes sense
+- **Test review**: you verify they cover what matters
+- **Final review**: always review the code before integrating it
+- **Architectural decisions**: you choose the patterns, the agent implements them
+
+The agent orchestrates, the sub-agents execute, but **you are the one who sets the direction at every decision point**.
+
+## Workflow summary
+
+```
+1. Describe → what you want to achieve and why
+2. The agent explores → investigates the codebase and proposes a plan
+3. You review → approve or adjust the proposal
+4. The agent generates tests → defines the contract for each task
+5. You verify the tests → confirm they cover what matters
+6. Sub-agents implement → in parallel if tasks are independent
+7. Automatic verification → tests + conventions
+8. Your final review → diffs, functionality, integration
+```
+
+This flow isn't complicated, but it requires a mindset shift: you stop being the programmer who writes everything and become the **architect who leads and verifies**. You don't write the tests or the code — you describe the intent, review the proposals, and validate the results.
+
+And that, paradoxically, makes you a better developer — because it forces you to think about WHAT the code should do before thinking about HOW.
+
+## Further reading
+
+If you want to learn more about TDD applied to AI agents, these resources are a good starting point:
+
+- [AI Agents, meet Test Driven Development](https://www.latent.space/p/anita-tdd) — Latent Space podcast on how TDD changes the dynamic with agents
+- [Guide AI Agents Through Test-Driven Development](https://elite-ai-assisted-coding.dev/p/guide-ai-agents-through-test-driven-development) — Practical guide on how to direct agents with TDD
+- [Test-Driven Development with AI](https://www.builder.io/blog/test-driven-development-ai) — Builder.io on the Red-Green-Refactor cycle with AI
+- [Test-Driven Development — Agentic Coding Handbook](https://tweag.github.io/agentic-coding-handbook/WORKFLOW_TDD/) — Reference manual for TDD workflows with agents
+- [Better AI Driven Development with TDD](https://medium.com/effortless-programming/better-ai-driven-development-with-test-driven-development-d4849f67e339) — Eric Elliott on why TDD is the best complement for AI-driven development 🚀

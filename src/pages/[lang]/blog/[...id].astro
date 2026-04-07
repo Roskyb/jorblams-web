@@ -168,4 +168,27 @@ const author = await getEntry(post.data.author);
     border-radius: 8px;
     margin: 2rem 0;
   }
+
+  article table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 2rem 0;
+  }
+
+  article table th,
+  article table td {
+    border: 1px solid #404040 !important;
+    padding: 0.6em 1em !important;
+    text-align: left;
+  }
+
+  article table th {
+    background: #262626 !important;
+    color: white;
+    font-weight: 600;
+  }
+
+  article table tr:nth-child(even) td {
+    background: #1a1a1a;
+  }
 </style>

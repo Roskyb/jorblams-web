@@ -91,17 +91,19 @@ const { title, description } = Astro.props.frontmatter || Astro.props;
 
     table {
       width: 100%;
+      border-collapse: collapse;
       th,
       td {
-        border: 1px solid color-mix(in srgb, var(--color-main) 20%, transparent);
-        padding-block: 0.4em;
-        padding-inline: 0.8em;
+        border: 1px solid color-mix(in srgb, var(--color-main) 40%, transparent);
+        padding-block: 0.6em;
+        padding-inline: 1em;
       }
       th {
-        background: color-mix(in srgb, var(--color-main) 20%, transparent);
+        background: color-mix(in srgb, var(--color-main) 15%, transparent);
+        text-align: left;
       }
       tr:nth-child(even) td {
-        background: color-mix(in srgb, var(--color-main) 2%, transparent);
+        background: color-mix(in srgb, var(--color-main) 5%, transparent);
       }
     }
 
