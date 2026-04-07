@@ -1,0 +1,83 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { AUTHOR, BRAND_NAME } from "@/consts";
+import { type Lang, useTranslations } from "@/i18n";
+
+const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-neutral-950 border-t border-white/10 text-gray-400">
+  <div class="max-w-6xl mx-auto px-8 md:px-16 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <!-- Brand -->
+      <div>
+        <a href={getRelativeLocaleUrl(locale, "/")} class="text-white text-xl font-bold hover:text-amber-200 transition-colors">
+          {t(BRAND_NAME)}
+        </a>
+        <p class="mt-4 text-sm leading-relaxed">
+          {t({
+            en: "Full-stack developer crafting modern web experiences with TypeScript.",
+            es: "Desarrollador full-stack creando experiencias web modernas con TypeScript.",
+          })}
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <div>
+        <h3 class="text-white font-medium mb-4 text-sm uppercase tracking-wider">
+          {t({ en: "Navigation", es: "Navegación" })}
+        </h3>
+        <ul class="space-y-3">
+          <li>
+            <a href={getRelativeLocaleUrl(locale, "/")} class="text-sm hover:text-amber-200 transition-colors">
+              {t("nav.home")}
+            </a>
+          </li>
+          <li>
+            <a href={getRelativeLocaleUrl(locale, "/blog")} class="text-sm hover:text-amber-200 transition-colors">
+              {t("nav.blog")}
+            </a>
+          </li>
+          <li>
+            <a href={getRelativeLocaleUrl(locale, "/about")} class="text-sm hover:text-amber-200 transition-colors">
+              {t("nav.about")}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Connect -->
+      <div>
+        <h3 class="text-white font-medium mb-4 text-sm uppercase tracking-wider">
+          {t("nav.connect")}
+        </h3>
+        <ul class="space-y-3">
+          <li>
+            <a href={AUTHOR.github} target="_blank" rel="noopener noreferrer" class="text-sm hover:text-amber-200 transition-colors">
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a href={AUTHOR.linkedin} target="_blank" rel="noopener noreferrer" class="text-sm hover:text-amber-200 transition-colors">
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${AUTHOR.email}`} class="text-sm hover:text-amber-200 transition-colors">
+              {AUTHOR.email}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="pt-8 border-t border-white/10 text-center">
+      <p class="text-xs">
+        © {year} {t(BRAND_NAME)}. {t({ en: "All rights reserved.", es: "Todos los derechos reservados." })}
+      </p>
+    </div>
+  </div>
+</footer>
