@@ -16,14 +16,16 @@ import "@/styles/global.css";
 interface Props {
 	title?: string;
 	description?: string;
+	ogImage?: string;
 	frontmatter?: undefined;
 }
 
-const { title, description } = Astro.props.frontmatter || Astro.props;
+const { title, description, ogImage } = Astro.props.frontmatter || Astro.props;
 
 const locale = Astro.currentLocale as Lang;
 const localeTitle = title ? `${title} - ${t(SITE_TITLE)}` : t(SITE_TITLE);
 const localeDescription = description || t(SITE_DESCRIPTION);
+const ogImageUrl = ogImage || `${Astro.site}og-image.png`;
 ---
 
 <!--
@@ -64,14 +66,14 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <meta property="og:description" content={localeDescription} />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:locale" content={LOCALES[locale].lang || locale} />
-    <meta property="og:image" content={`${Astro.site}og-image.png`} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:alt" content={localeTitle} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={localeTitle} />
     <meta name="twitter:description" content={localeDescription} />
-    <meta name="twitter:image" content={`${Astro.site}og-image.png`} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- Canonical -->
     <link rel="canonical" href={Astro.url} />

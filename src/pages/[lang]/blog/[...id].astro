@@ -23,6 +23,11 @@ const description = post.data.description;
 const tags = await getEntries(post.data.tags);
 const author = await getEntry(post.data.author);
 
+// OG image from cover
+const ogImage = post.data.cover
+	? new URL(post.data.cover.src, Astro.site).href
+	: undefined;
+
 // Reading time (rough estimate: 200 words per minute)
 const wordCount = post.body?.split(/\s+/).length ?? 0;
 const readingTime = Math.max(1, Math.ceil(wordCount / 200));
@@ -42,7 +47,7 @@ function getPostUrl(p: typeof post) {
 }
 ---
 
-<Layout {title} {description}>
+<Layout {title} {description} {ogImage}>
   <main class="min-h-screen bg-black text-white">
     <!-- Hero Section with Cover Image -->
     {post.data.cover && (
