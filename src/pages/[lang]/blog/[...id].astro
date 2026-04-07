@@ -22,6 +22,24 @@ const description = post.data.description;
 
 const tags = await getEntries(post.data.tags);
 const author = await getEntry(post.data.author);
+
+// Reading time (rough estimate: 200 words per minute)
+const wordCount = post.body?.split(/\s+/).length ?? 0;
+const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+// Previous/Next posts (same locale, sorted by date)
+const allPosts = (await getCollection("blog", ({ data }) => !data.draft))
+	.filter((p) => p.id.split("/")[0] === locale)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const currentIndex = allPosts.findIndex((p) => p.id === post.id);
+const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+
+function getPostUrl(p: typeof post) {
+	const [, ...id] = p.id.split("/");
+	return `/${locale}/blog/${id.join("/")}/`;
+}
 ---
 
 <Layout {title} {description}>
@@ -60,12 +78,16 @@ const author = await getEntry(post.data.author);
           )}
           <span class="text-gray-600">•</span>
           <time datetime={post.data.date.toISOString()} class="text-gray-400 text-sm">
-            {post.data.date.toLocaleDateString(locale, { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
+            {post.data.date.toLocaleDateString(locale, {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
             })}
           </time>
+          <span class="text-gray-600">•</span>
+          <span class="text-gray-400 text-sm">
+            {readingTime} min read
+          </span>
         </div>
 
         <!-- Tags -->
@@ -84,6 +106,24 @@ const author = await getEntry(post.data.author);
       <article class="prose prose-invert prose-lg max-w-none">
         <Content />
       </article>
+
+      <!-- Post Navigation -->
+      {(prevPost || nextPost) && (
+        <nav class="mt-20 pt-12 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-8">
+          {prevPost ? (
+            <a href={getPostUrl(prevPost)} class="group">
+              <span class="text-xs text-gray-500 uppercase tracking-wider">← Previous</span>
+              <p class="text-lg font-medium mt-2 group-hover:text-amber-200 transition-colors">{prevPost.data.title}</p>
+            </a>
+          ) : <div />}
+          {nextPost && (
+            <a href={getPostUrl(nextPost)} class="group text-right">
+              <span class="text-xs text-gray-500 uppercase tracking-wider">Next →</span>
+              <p class="text-lg font-medium mt-2 group-hover:text-amber-200 transition-colors">{nextPost.data.title}</p>
+            </a>
+          )}
+        </nav>
+      )}
     </div>
   </main>
 </Layout>
@@ -144,6 +184,31 @@ const author = await getEntry(post.data.author);
     padding: 1.5rem;
     overflow-x: auto;
     margin: 2rem 0;
+    position: relative;
+  }
+
+  .copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background: #404040;
+    border: none;
+    border-radius: 4px;
+    color: #a3a3a3;
+    font-size: 0.75rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  article.prose pre:hover .copy-button {
+    opacity: 1;
+  }
+
+  .copy-button:hover {
+    background: #525252;
+    color: white;
   }
 
   article.prose ul,
@@ -192,3 +257,25 @@ const author = await getEntry(post.data.author);
     background: #1a1a1a;
   }
 </style>
+
+<script>
+  function initCopyButtons() {
+    document.querySelectorAll<HTMLPreElement>("article pre").forEach((pre) => {
+      if (pre.querySelector(".copy-button")) return;
+      const button = document.createElement("button");
+      button.className = "copy-button";
+      button.textContent = "Copy";
+      button.addEventListener("click", async () => {
+        const code = pre.querySelector("code")?.textContent ?? pre.textContent ?? "";
+        await navigator.clipboard.writeText(code);
+        button.textContent = "Copied!";
+        setTimeout(() => { button.textContent = "Copy"; }, 2000);
+      });
+      pre.style.position = "relative";
+      pre.appendChild(button);
+    });
+  }
+
+  initCopyButtons();
+  document.addEventListener("astro:after-swap", initCopyButtons);
+</script>
