@@ -1,11 +1,9 @@
 ---
 import PageHeadline from "@/components/PageHeadline.astro";
 import NotTranslateCaution from "@/components/i18n/NotTranslateCaution.astro";
-import { localeParams } from "@/i18n";
 import Layout from "@/layouts/Base.astro";
 
 const title = "Monolingual Page";
-export const getStaticPaths = () => localeParams;
 ---
 
 <Layout {title}>
