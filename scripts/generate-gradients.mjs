@@ -53,21 +53,21 @@ const PALETTES = [
 function generateSVG(slug) {
 	const h = hash(slug);
 	const palette = PALETTES[h % PALETTES.length];
-	const angle = 20 + (hash(slug + "angle") % 50);
+	const angle = 20 + (hash(`${slug}angle`) % 50);
 
 	// 6 large overlapping ellipses covering the full canvas
 	const count = 6;
 	const shapes = [];
 	for (let i = 0; i < count; i++) {
 		const color = palette[i % palette.length];
-		const seed = hash(slug + `s${i}`);
+		const seed = hash(`${slug}s${i}`);
 		// Spread positions across the full canvas
-		const cx = -10 + (hash(slug + `cx${i}`) % 120); // -10 to 110%
-		const cy = -10 + (hash(slug + `cy${i}`) % 120);
+		const cx = -10 + (hash(`${slug}cx${i}`) % 120); // -10 to 110%
+		const cy = -10 + (hash(`${slug}cy${i}`) % 120);
 		const rx = 50 + (seed % 40); // 50-90%
-		const ry = 40 + (hash(slug + `ry${i}`) % 35); // 40-75%
-		const rotation = angle + (hash(slug + `rot${i}`) % 60) - 30;
-		const opacity = 0.5 + (hash(slug + `op${i}`) % 40) / 100; // 0.5-0.9
+		const ry = 40 + (hash(`${slug}ry${i}`) % 35); // 40-75%
+		const rotation = angle + (hash(`${slug}rot${i}`) % 60) - 30;
+		const opacity = 0.5 + (hash(`${slug}op${i}`) % 40) / 100; // 0.5-0.9
 
 		shapes.push({ color, cx, cy, rx, ry, rotation, opacity });
 	}

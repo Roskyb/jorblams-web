@@ -17,7 +17,7 @@ body {
 }
 
 .material-icons-sharp {
-	font-family: "Material Icons Sharp";
+	font-family: "Material Icons Sharp", monospace;
 	font-weight: normal;
 	font-style: normal;
 	font-size: 24px;

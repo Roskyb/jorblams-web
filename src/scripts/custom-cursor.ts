@@ -13,7 +13,7 @@ function initCursor() {
 	});
 
 	// Handle custom cursor triggers (buttons)
-	triggers.forEach((trigger) => {
+	for (const trigger of triggers) {
 		trigger.addEventListener("mouseenter", () => {
 			isMorphing = true;
 
@@ -44,11 +44,11 @@ function initCursor() {
 				cursor.style.height = "";
 			}
 		});
-	});
+	}
 
 	// Handle regular links (grow cursor slightly)
 	const links = document.querySelectorAll("a:not(.custom-cursor-trigger)");
-	links.forEach((link) => {
+	for (const link of links) {
 		link.addEventListener("mouseenter", () => {
 			if (cursor && !isMorphing) {
 				cursor.classList.add("cursor-grow");
@@ -60,7 +60,7 @@ function initCursor() {
 				cursor.classList.remove("cursor-grow");
 			}
 		});
-	});
+	}
 }
 
 // Run on initial load and after each view transition navigation
