@@ -6,8 +6,8 @@
  * Regenerate: node scripts/generate-gradients.mjs --force
  */
 
-import { readdir, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import sharp from "sharp";
 

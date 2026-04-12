@@ -26,8 +26,7 @@ export const common: {
 		"nav.about.description":
 			"Full-stack developer passionate about creating modern web applications with TypeScript.",
 		"projects.empty": "No projects yet. Check back soon!",
-		"blog.subtitle":
-			"Thoughts, tutorials, and insights about web development",
+		"blog.subtitle": "Thoughts, tutorials, and insights about web development",
 		"blog.empty": "No posts yet. Check back soon!",
 	},
 	es: {

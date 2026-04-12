@@ -2,8 +2,8 @@
 // Header & Navigation UI displayed on each page.
 
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { LOCALES, type Lang, useTranslations } from "@/i18n";
 import { AUTHOR } from "@/consts";
+import { LOCALES, type Lang, useTranslations } from "@/i18n";
 const t = useTranslations(Astro.currentLocale as Lang);
 
 const locale = Astro.currentLocale as Lang;

@@ -1,7 +1,7 @@
 ---
+import { AUTHOR } from "@/consts";
 import { LOCALES, type Lang, useTranslations } from "@/i18n";
 import Layout from "@/layouts/Base.astro";
-import { AUTHOR } from "@/consts";
 const t = useTranslations(Astro.currentLocale as Lang);
 import { getRelativeLocaleUrl } from "astro:i18n";
 
