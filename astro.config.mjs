@@ -9,6 +9,12 @@ import { DEFAULT_LOCALE_SETTING, LOCALES_SETTING } from "./src/i18n/locales";
 export default defineConfig({
 	output: "static",
 	site: "https://www.jorblams.com",
+	markdown: {
+		shikiConfig: {
+			theme: "tokyo-night",
+			wrap: false,
+		},
+	},
 	vite: {
 		plugins: [tailwindcss()],
 	},
