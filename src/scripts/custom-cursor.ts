@@ -1,4 +1,6 @@
 function initCursor() {
+	if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
 	const cursor: HTMLElement | null = document.querySelector(".custom-cursor");
 	const triggers = document.querySelectorAll(".custom-cursor-trigger");
 	let isMorphing = false;

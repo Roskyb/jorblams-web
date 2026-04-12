@@ -35,24 +35,31 @@ html {
 	scroll-behavior: smooth !important;
 }
 
-* {
-	cursor: none !important;
+.custom-cursor {
+	display: none;
 }
 
-.custom-cursor {
-	position: fixed;
-	width: 16px;
-	height: 16px;
-	border-radius: 50%;
-	background-color: white;
-	pointer-events: none;
-	z-index: 9999;
-	transform: translate(-50%, -50%);
-	mix-blend-mode: difference;
-	transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1), height 0.2s
-		cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.2s
-		cubic-bezier(0.4, 0, 0.2, 1);
-	opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+	* {
+		cursor: none !important;
+	}
+
+	.custom-cursor {
+		display: block;
+		position: fixed;
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		background-color: white;
+		pointer-events: none;
+		z-index: 9999;
+		transform: translate(-50%, -50%);
+		mix-blend-mode: difference;
+		transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1), height 0.2s
+			cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.2s
+			cubic-bezier(0.4, 0, 0.2, 1);
+		opacity: 1;
+	}
 }
 
 .custom-cursor.morphing {
