@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { getCollection, getEntries, getEntry, render } from "astro:content";
-import type { Lang } from "@/i18n";
+import { type Lang, useTranslations } from "@/i18n";
 import Layout from "@/layouts/Base.astro";
 
 export async function getStaticPaths() {
@@ -14,6 +14,7 @@ export async function getStaticPaths() {
 }
 
 const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
 const post = Astro.props;
 
 const { Content } = await render(post);
@@ -79,7 +80,7 @@ function getPostUrl(p: typeof post) {
         <div class="flex flex-wrap items-center gap-4 mb-6">
           {author && (
             <span class="text-gray-400 text-sm">
-              By {author.data.name}
+              {t("by")} {author.data.name}
             </span>
           )}
           <span class="text-gray-600">•</span>
@@ -92,7 +93,7 @@ function getPostUrl(p: typeof post) {
           </time>
           <span class="text-gray-600">•</span>
           <span class="text-gray-400 text-sm">
-            {readingTime} min read
+            {t("blog.readingTime", { minutes: readingTime })}
           </span>
         </div>
 
@@ -118,13 +119,13 @@ function getPostUrl(p: typeof post) {
         <nav class="mt-20 pt-12 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-8">
           {prevPost ? (
             <a href={getPostUrl(prevPost)} class="group">
-              <span class="text-xs text-gray-500 uppercase tracking-wider">← Previous</span>
+              <span class="text-xs text-gray-500 uppercase tracking-wider">← {t("blog.prev")}</span>
               <p class="text-lg font-medium mt-2 group-hover:text-amber-200 transition-colors">{prevPost.data.title}</p>
             </a>
           ) : <div />}
           {nextPost && (
             <a href={getPostUrl(nextPost)} class="group text-right">
-              <span class="text-xs text-gray-500 uppercase tracking-wider">Next →</span>
+              <span class="text-xs text-gray-500 uppercase tracking-wider">{t("blog.next")} →</span>
               <p class="text-lg font-medium mt-2 group-hover:text-amber-200 transition-colors">{nextPost.data.title}</p>
             </a>
           )}
@@ -264,22 +265,31 @@ function getPostUrl(p: typeof post) {
   }
 </style>
 
+<script is:inline define:vars={{ copyLabel: t("blog.copy"), copiedLabel: t("blog.copied") }}>
+  window.__blogI18n = { copy: copyLabel, copied: copiedLabel };
+</script>
+
 <script>
+  type BlogI18n = { copy: string; copied: string };
+  const labels: BlogI18n =
+    (window as unknown as { __blogI18n?: BlogI18n }).__blogI18n ??
+    { copy: "Copy", copied: "Copied!" };
+
   function initCopyButtons() {
-    document.querySelectorAll<HTMLPreElement>("article pre").forEach((pre) => {
-      if (pre.querySelector(".copy-button")) return;
+    for (const pre of document.querySelectorAll<HTMLPreElement>("article pre")) {
+      if (pre.querySelector(".copy-button")) continue;
       const button = document.createElement("button");
       button.className = "copy-button";
-      button.textContent = "Copy";
+      button.textContent = labels.copy;
       button.addEventListener("click", async () => {
         const code = pre.querySelector("code")?.textContent ?? pre.textContent ?? "";
         await navigator.clipboard.writeText(code);
-        button.textContent = "Copied!";
-        setTimeout(() => { button.textContent = "Copy"; }, 2000);
+        button.textContent = labels.copied;
+        setTimeout(() => { button.textContent = labels.copy; }, 2000);
       });
       pre.style.position = "relative";
       pre.appendChild(button);
-    });
+    }
   }
 
   initCopyButtons();

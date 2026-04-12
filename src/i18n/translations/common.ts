@@ -28,6 +28,11 @@ export const common: {
 		"projects.empty": "No projects yet. Check back soon!",
 		"blog.subtitle": "Thoughts, tutorials, and insights about web development",
 		"blog.empty": "No posts yet. Check back soon!",
+		"blog.readingTime": "{minutes} min read",
+		"blog.prev": "Previous",
+		"blog.next": "Next",
+		"blog.copy": "Copy",
+		"blog.copied": "Copied!",
 	},
 	es: {
 		"header.auth": "Iniciar Sesión",
@@ -54,5 +59,10 @@ export const common: {
 		"blog.subtitle":
 			"Reflexiones, tutoriales y conocimientos sobre desarrollo web",
 		"blog.empty": "Aún no hay publicaciones. ¡Vuelve pronto!",
+		"blog.readingTime": "{minutes} min de lectura",
+		"blog.prev": "Anterior",
+		"blog.next": "Siguiente",
+		"blog.copy": "Copiar",
+		"blog.copied": "¡Copiado!",
 	},
 };
