@@ -1,0 +1,161 @@
+---
+title: "SDD with Claude Code: directing your coding partner"
+description: Spec-Driven Development applied to my real workflow with Claude Code. How to direct a coding partner with specifications instead of improvised prompts.
+date: 2026-04-18T10:00:00
+lastModified: 2026-04-18T10:00:00
+author: en/john-doe
+cover: /src/assets/images/covers/sdd-claude-code-coding-partner.png
+tags:
+  - en/ai
+  - en/agents
+  - en/sdd
+  - en/workflow
+category: en/desarrollo
+draft: false
+---
+
+## Claude Code as a real coding partner
+
+I've been using Claude Code as a real coding partner for months. Not as a chatbot, not as autocomplete, not as a snippet generator. As someone I direct work to and who returns code to me. And the only thing that made the difference was to stop improvising prompts and start applying a methodology with forty years of history: Spec-Driven Development.
+
+It isn't new. But for the first time it works at real speed.
+
+What changed wasn't the AI. AI has been improving in a straight line since 2022. What changed was how I direct the conversation. Before I'd write a prompt, wait for the result, iterate. Now I define what I want to achieve, let the agent explore the codebase, negotiate a plan, generate tests, implement, verify. Each phase has an artifact I can review. Each phase is verifiable.
+
+This post isn't an installation tutorial or a comparative review of tools. It's the workflow that works for me, the Claude Code pieces that make it possible, and the places where this methodology breaks if you aren't careful.
+
+## What SDD is, in a single idea
+
+Spec-Driven Development is a way of working where you first define **what** needs to be done, in structured form, and then let the code fall out of there. It's not a framework or a product. It's a discipline.
+
+The popular alternative is what some call *vibe coding*: you open a chat with the agent, vaguely describe what you want, the agent writes code, you test it, iterate. It works for prototypes and toys. It breaks when the project has more than 50 files, when there are conventions to respect, or when the code goes to production.
+
+SDD puts a brake between "I want this" and "here's the code." In that brake, intermediate phases appear:
+
+- **Requirements** or **spec** — what needs to be done, in structured language
+- **Design** — how it will be done, what technical decisions
+- **Tasks** — an executable checklist
+- **Verify** — validation against the spec, not against "seems to work"
+
+The basic idea is that the human directs the strategy and the agent executes the pieces. The spec is the contract between both. If the agent fails to meet the spec, it's easy to detect. If there's no spec, there's no way to know if what it did was what you wanted.
+
+## My actual workflow
+
+In a project of some complexity, my workflow with Claude Code goes through seven phases. Some get skipped if the task is small.
+
+### 1. Explore
+
+Before asking for code, I ask the agent to explore the codebase. It reads the relevant files, understands the patterns, identifies what will be affected. It returns a brief analysis: what files to touch, what risks it sees, what alternatives it considers. It's like scouting the ground before digging.
+
+### 2. Propose
+
+With the exploration in hand, the agent presents a proposal: what will be done, how, with what trade-offs. I review it. I adjust what doesn't convince me. If I see the agent wants to abstract something prematurely, I say so. If it proposes a pattern that isn't used in the project, I change it. This is the phase with the highest leverage: an error here multiplies in every following phase.
+
+### 3. Spec
+
+Once the proposal is approved, the agent writes the formal specification. This is what the code must meet. Structured natural language is used: acceptance criteria like "given X, when Y, then Z." It's not a formal treatise; it's a clear way to describe behavior.
+
+### 4. Design
+
+If the change has technical complexity — architecture, databases, flows between services — I add a design phase. The agent proposes decisions, I approve them or discuss them. If the task is a bug fix or a minor adjustment, this phase gets skipped.
+
+### 5. Tasks
+
+The agent breaks the spec and design down into an executable checklist. Each task is concrete, verifiable, and small enough to complete without getting distracted. The checklist is an artifact you can gradually check off.
+
+### 6. Apply
+
+Implementation. This is where TDD comes in: the agent generates the tests first, I review them, and then it writes the code that makes them pass. For independent tasks, I launch sub-agents in parallel. Each one works with its own context, runs the tests, reports the result.
+
+### 7. Verify
+
+The agent (or a dedicated sub-agent) compares the result against the spec. Not against "the tests pass." Against the spec. If something doesn't meet it, it iterates. If it does, it returns the summary with the diff for my final review.
+
+> The flow isn't linear. In practice, I go back to explore when the proposal shows me the agent misunderstood. I update the spec if a case I hadn't considered comes up during apply. What matters is that each phase leaves an artifact you can review or revert.
+
+This flow sounds like a lot for a simple feature, and it is. I don't use it for a one-off bug or to change a string. I use it when the change touches business logic, architecture, or several related files.
+
+## The Claude Code pieces that make this possible
+
+The workflow above doesn't come out of the box. I built it myself, leaning on primitives Claude Code does ship with:
+
+### Skills
+
+A skill is a markdown file with instructions that the agent loads when the corresponding context applies. It lives in `.claude/skills/` inside the project (or in `~/.claude/skills/` for all projects). Each phase of my workflow — explore, propose, spec, design, tasks, apply, verify — is a skill with its own `SKILL.md`. The agent knows what instructions to follow because the frontmatter defines when to activate them.
+
+### Sub-agents
+
+A sub-agent is a separate instance of the model running with its own context. The main agent orchestrates; the sub-agents execute. For the apply step with independent tasks, I launch three sub-agents in parallel and each one works in isolation. They don't overlap. Each one reports back to the main agent when finished.
+
+### CLAUDE.md
+
+It's the project's instructions file. It defines conventions: what test runner to use, how to format commits, what patterns to avoid. Sub-agents inherit it automatically. When a sub-agent goes to implement a task, it already knows it has to use Biome to format, Vitest to test, conventional commits for messages. No need to explain it every time.
+
+### Persistent memory
+
+SDD generates artifacts that have to survive between sessions. Today's exploration is used for tomorrow's proposal. For that I use a persistent memory layer that stores each artifact with a stable key. If tomorrow I come back to the same project and ask for the next step, the agent recovers the spec and the design without me having to paste anything. It doesn't matter which specific tool you use; what matters is that each phase of the workflow doesn't start from scratch.
+
+### Hooks
+
+A hook is a command that runs automatically when an event happens. In my project, every time the agent edits a file, a hook runs Biome and formats it. It's invisible: I don't ask for it; it just happens. The agent doesn't even notice. What matters to me is that commits come out with the right format without me having to remember.
+
+> None of these pieces is exclusive to SDD. They're generic Claude Code mechanisms I use to implement the workflow. If tomorrow you change tools and your new platform supports skills and sub-agents, the workflow ports over the same way.
+
+## This isn't new
+
+SDD looks like a 2026 trend, but the ideas underneath have been circulating for decades. It's worth going over them.
+
+### Design by Contract (Bertrand Meyer, 1986)
+
+In 1986, Bertrand Meyer published a technical report introducing Design by Contract. The idea: each function declares pre-conditions (what it assumes on entry), post-conditions (what it guarantees on exit), and invariants (what is always true). The type system guarantees part of it; the explicit contract guarantees the rest. The Eiffel language took it to practice.
+
+That's a spec, at the function level. The difference from a modern spec is that DbC is executable: the runtime verifies the conditions. But the philosophy is the same — defining **what** before writing the **how**.
+
+### Behavior-Driven Development (Dan North, 2006)
+
+Dan North published [Introducing BDD](https://dannorth.net/blog/introducing-bdd/) in Better Software magazine in March 2006. BDD introduced the format that's standard today: **given** an initial state, **when** something happens, **then** X happens. It's the language of acceptance criteria. Modern SDD specs — including the ones you write for agents — are practically BDD with another wrapper.
+
+> What changes in 2026 isn't the methodology. What changes is that for the first time you have a machine that can execute a well-written spec in minutes. The feedback loop shrank from sprints to minutes. But the principles are the same ones Meyer and North articulated twenty or forty years ago.
+
+## Where it breaks and when NOT to use it
+
+SDD with agents isn't a silver bullet. There are places where it fails hard.
+
+### Markdown overload
+
+If you apply SDD to everything, you end up with a graveyard of markdown files. The marmelab team [documented a concrete case](https://marmelab.com/blog/2025/11/12/spec-driven-development-waterfall-strikes-back.html): a developer wanted to display the current date in a time-tracking app, used GitHub spec-kit, and ended up with eight files and 1,300 lines of markdown. For a trivial feature.
+
+Birgitta Böckeler, in [her analysis of SDD tools](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html), sums up the problem with a German word: *Verschlimmbesserung* — making something worse in the attempt to make it better.
+
+The practical rule: SDD scales with the complexity of the change, not with everything. Small bug, prototype, exploration → don't use SDD.
+
+### The agent cheats
+
+[Kent Beck described it](https://tidyfirst.substack.com/p/augmented-coding-beyond-the-vibes) in June 2025 as one of the red flags of working with agents: *"any indication that the genie was cheating, for example by disabling or deleting tests."* The agent can delete a test that gets in its way and declare it's done. It's your responsibility — not the agent's — to review the diffs and make sure the tests are the ones you asked for, not the ones the agent preferred.
+
+### The "curse of instructions"
+
+[Addy Osmani explains it](https://addyosmani.com/blog/good-spec/) directly: *"as you pile on more instructions or data into the prompt, the model's performance in adhering to each one drops significantly."* A 2,000-line spec isn't better than a 200-line one. It's worse. The model has a finite *attention budget*, and distributing it across 20 contradictory rules produces mediocre code.
+
+### The real limits of the agent
+
+[Hillel Wayne](https://buttondown.com/hillelwayne/archive/llms-are-bad-at-vibing-specifications/) — one of the leading voices in formal methods — is explicit about what AI doesn't do: *"LLMs aren't doing one of the core features of a spec... the actual value in using formal methods comes from the subtle properties."* The agent generates obvious criteria. The subtle criteria — concurrency, non-obvious edge cases, domain invariants — you have to bring yourself.
+
+### When NOT to use SDD
+
+- One-off bugs
+- Exploration and prototypes
+- Throwaway code
+- Legacy projects without prior context
+- Anything where the overhead of the spec costs more than writing the code directly
+
+## Closing
+
+SDD isn't new magic. It's old discipline applied to a fast machine. The real change isn't in the methodology — it's that for the first time you have a partner that can execute a well-written spec in minutes. But the partner still needs direction, and the direction still belongs to you.
+
+If you're already using Claude Code and want to dig deeper, these posts complement what we covered here:
+
+- [Sub-agents and TDD: the workflow that changes how you work with Claude Code](/en/blog/claude-code-subagentes-tdd-workflow) — how to orchestrate sub-agents with TDD as a safety net
+- [How to use console agents to organize your GitHub workflow](/en/blog/agentes-consola-github-workflow) — automating issues, PRs and management from the terminal
+
+The tools will keep changing. The principles won't. 🚀
