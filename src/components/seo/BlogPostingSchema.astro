@@ -1,0 +1,14 @@
+---
+import {
+	type BlogPostingInput,
+	buildBlogPostingSchema,
+	serializeJsonLd,
+} from "@/lib/seo/structured-data";
+
+type Props = BlogPostingInput;
+
+const schema = buildBlogPostingSchema(Astro.props);
+const json = serializeJsonLd(schema);
+---
+
+<script type="application/ld+json" is:inline set:html={json} />

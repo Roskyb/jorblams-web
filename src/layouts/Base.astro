@@ -87,6 +87,7 @@ const ogImageUrl = ogImage || `${Astro.site}og-image.png`;
 
     <ClientRouter />
     <LocaleHtmlHead />
+    <slot name="head" />
   </head>
 
   <body>

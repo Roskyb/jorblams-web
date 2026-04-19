@@ -1,7 +1,9 @@
 ---
 import { Image } from "astro:assets";
 import { getCollection, getEntries, getEntry, render } from "astro:content";
-import { type Lang, useTranslations } from "@/i18n";
+import BlogPostingSchema from "@/components/seo/BlogPostingSchema.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { LOCALES, type Lang, useTranslations } from "@/i18n";
 import Layout from "@/layouts/Base.astro";
 
 export async function getStaticPaths() {
@@ -47,9 +49,30 @@ function getPostUrl(p: typeof post) {
 	const [, ...id] = p.id.split("/");
 	return `/${locale}/blog/${id.join("/")}/`;
 }
+
+const canonicalUrl = Astro.url.href;
+const inLanguage = LOCALES[locale].lang || locale;
+const breadcrumbItems = [
+	{ name: t("nav.home"), url: new URL(`/${locale}/`, Astro.site).href },
+	{ name: t("nav.blog"), url: new URL(`/${locale}/blog/`, Astro.site).href },
+	{ name: title, url: canonicalUrl },
+];
 ---
 
 <Layout {title} {description} {ogImage}>
+  <BlogPostingSchema
+    slot="head"
+    title={title}
+    description={description}
+    datePublished={post.data.date}
+    dateModified={post.data.lastModified}
+    authorName={author.data.name}
+    image={ogImage}
+    url={canonicalUrl}
+    inLanguage={inLanguage}
+  />
+  <BreadcrumbSchema slot="head" items={breadcrumbItems} />
+
   <main class="min-h-screen bg-black text-white">
     <!-- Hero Section with Cover Image -->
     {post.data.cover && (

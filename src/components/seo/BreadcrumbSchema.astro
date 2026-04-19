@@ -1,0 +1,16 @@
+---
+import {
+	type BreadcrumbItem,
+	buildBreadcrumbSchema,
+	serializeJsonLd,
+} from "@/lib/seo/structured-data";
+
+interface Props {
+	items: BreadcrumbItem[];
+}
+
+const schema = buildBreadcrumbSchema(Astro.props.items);
+const json = serializeJsonLd(schema);
+---
+
+<script type="application/ld+json" is:inline set:html={json} />
