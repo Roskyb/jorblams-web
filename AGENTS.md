@@ -184,14 +184,14 @@ All content types support i18n with `multiple_folders` structure:
 
 ## Environment Variables
 
-- `PUBLIC_SITE_URL`: Production site URL (optional, defaults to `https://astro-cms.pages.dev`)
+- `PUBLIC_SITE_URL`: Production site URL (optional, defaults to `https://jorblams.com`)
 - Local dev uses `http://localhost:4321`
 - Defined in `src/consts.ts` as `BASE_URL`
 
 ## Deployment
 
 ### Docker Deployment
-1. Build image: `docker build -t astro-cms .`
+1. Build image: `docker build -t jorblams-web .`
 2. Runs production build
 3. Serves with nginx (config in `nginx.conf`)
 4. Exposes port 80

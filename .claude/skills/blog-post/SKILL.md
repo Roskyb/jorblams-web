@@ -1,7 +1,7 @@
 ---
 name: blog-post
 description: >
-  Creates bilingual blog posts (es/en) for the astro-cms site following the established content structure, style, and conventions.
+  Creates bilingual blog posts (es/en) for the Jorblams Web site following the established content structure, style, and conventions.
   Trigger: When creating a blog post, writing an article, adding content to the blog, or user says "nuevo post", "new post", "escribir artículo".
 license: Apache-2.0
 metadata:

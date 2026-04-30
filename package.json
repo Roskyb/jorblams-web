@@ -1,6 +1,6 @@
 {
-	"name": "astro-i18n-cms-starter",
-	"description": "A starter for Astro with i18n support",
+	"name": "jorblams-web",
+	"description": "Personal portfolio and blog with i18n support built with Astro v5",
 	"version": "3.0.0",
 	"private": false,
 	"license": "MIT",

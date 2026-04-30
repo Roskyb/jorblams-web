@@ -1,35 +1,74 @@
-# Astro i18n Starter
+# Jorblams Web
 
-```sh
-npm create astro@latest -- --template yacosta738/astro-cms
-```
+Personal portfolio and blog built with Astro v5, with support for internationalization (i18n) in English and Spanish.
 
-[![Logo Image](docs/hero.svg)](https://astro-cms-dpv.pages.dev/ "See document")
+## Tech Stack
 
-i18n Starter is a simple [Astro](https://astro.build) theme for creating multilingual websites.
+- **Framework**: Astro 6.x with static site generation
+- **Styling**: TailwindCSS 4.x
+- **Content**: MDX for blog posts with frontmatter
+- **CMS**: Sveltia CMS (Netlify CMS fork) at `/admin`
+- **i18n**: Astro built-in i18n routing with subdirectory format (`/en/`, `/es/`)
+- **Type Safety**: TypeScript with strict mode
+- **Code Quality**: Biome for formatting and linting
+- **Testing**: Vitest
 
-It supports [i18n routing in Astro v4.0](https://docs.astro.build/en/guides/internationalization/).
+Default locale is Spanish (`es`).
 
-It only supports the subdirectory URL format. Each language is managed with a URL like the following. The root URL will redirect to the specified default language.
+## URL Structure
 
-- example.com/en/
-- example.com/ja/
+- `/es/` - Spanish (default)
+- `/en/` - English
 
 ## Features
 
-- [x] Support for Astro's official i18n functionality
-- [x] Various methods for managing multilingual pages
-- [x] Vanilla CSS
-- [x] SEO-friendly
+- [x] Multilingual blog with MDX content
+- [x] Sveltia CMS admin panel for content management
+- [x] SEO-friendly with sitemap and RSS feeds
+- [x] Author, category, and tag organization
+- [x] Responsive images with optimization
+- [x] Lighthouse score: 100 on all metrics
 
-## Lighthouse Score
+## Getting Started
 
-[![All scores are 100.](docs/lighthouse.png)](https://pagespeed.web.dev/analysis/https-astro-cms-dpv-pages-dev-en/k084o13741?form_factor=mobile "Check score")
+```bash
+# Install dependencies
+npm install
+
+# Start dev server (opens browser)
+npm start
+
+# Start dev server (without opening browser)
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Run checks (TypeScript + Biome)
+npm run check
+
+# Format code
+npm run format
+
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+## Content Management
+
+Access the CMS admin panel at `/admin` to manage:
+- Blog posts
+- Authors
+- Categories
+- Tags
+- Projects
 
 ## Documentation
 
-This theme is self-documented, and the pages within this theme can be considered as documentation.
-
-Install and preview locally or check out the sample site below.
-
-<https://astro-cms-dpv.pages.dev/>
+This project is self-documented. Navigate to the deployed site to see all features in action.
