@@ -9,7 +9,7 @@ export const index: {
 		name: "Jorge Blanco",
 		role: "Full-stack Developer",
 		intro:
-			"I craft digital experiences that blend beautiful design with powerful functionality. Passionate about web technologies, user experience, and bringing ideas to life through code.",
+			"I build applications that people actually use and love. With a focus on reliability, performance, and user experience, I turn complex problems into elegant solutions.",
 		"cta.work": "View My Work",
 		"cta.about": "About Me",
 		"skills.development": "DEVELOPMENT",
@@ -22,14 +22,14 @@ export const index: {
 		"projects.two.desc": "Design system & components",
 		"contact.title": "Let's Connect",
 		"contact.description":
-			"I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.",
+			"Have something interesting to build? Let's explore it together.",
 	},
 	es: {
 		greeting: "Hola, soy",
 		name: "Jorge Blanco",
 		role: "Desarrollador Full-stack",
 		intro:
-			"Desarrollador centrado en crear experiencias digitales que unan un buen diseño con una funcionalidad sólida. Me especializo en tecnologías web y en mejorar la experiencia de usuario, llevando ideas a productos bien ejecutados.",
+			"Construyo aplicaciones que las personas realmente utilizan y disfrutan. Con enfoque en confiabilidad, rendimiento y experiencia del usuario, convierto problemas complejos en soluciones elegantes.",
 		"cta.work": "Ver Mi Trabajo",
 		"cta.about": "Sobre Mí",
 		"skills.development": "DESARROLLO",
@@ -42,6 +42,6 @@ export const index: {
 		"projects.two.desc": "Sistema de diseño y componentes",
 		"contact.title": "Conectemos",
 		"contact.description":
-			"Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades para ser parte de tu visión.",
+			"¿Tienes algo interesante para construir? Exploremos juntos.",
 	},
 };
