@@ -9,9 +9,11 @@ export const about: {
 		subtitle: "Building digital experiences with modern web technologies",
 		"story.title": "My Story",
 		"story.p1":
-			"I'm Jorge Blanco, a full-stack developer passionate about creating elegant solutions to complex problems. My journey in web development started with a curiosity for how things work, which quickly evolved into a career building modern web applications.",
+			"I'm Jorge Blanco, a full-stack developer with 4+ years building applications that actually help people. I work with TypeScript, Angular, Express, and NestJS.",
 		"story.p2":
-			"I specialize in TypeScript, Angular, and NestJS, focusing on building scalable and maintainable applications. I believe in writing clean code, following best practices, and constantly learning new technologies to stay ahead in this ever-evolving field.",
+			"I care deeply about reliable code—I test first, think about edge cases, and make sure things work as expected. But more than \"clean code,\" I focus on solving real problems: making apps fast, easy to use, and maintainable so the team after me doesn't curse my name.",
+		"story.p3":
+			"I've learned that the best code is the one that serves a purpose. So I ask questions, understand why we're building something, and make sure it works for the people using it.",
 		"skills.title": "What I Do",
 		"skills.frontend.title": "Frontend Development",
 		"skills.frontend.description":
@@ -31,9 +33,11 @@ export const about: {
 			"Construyendo experiencias digitales con tecnologías web modernas",
 		"story.title": "Mi Historia",
 		"story.p1":
-			"Soy Jorge Blanco, un desarrollador full-stack apasionado por crear soluciones elegantes a problemas complejos. Mi viaje en el desarrollo web comenzó con curiosidad por cómo funcionan las cosas, lo que rápidamente evolucionó en una carrera construyendo aplicaciones web modernas.",
+			"Soy Jorge Blanco, desarrollador full-stack con 4+ años construyendo aplicaciones que realmente ayudan a las personas. Trabajo con TypeScript, Angular, Express y NestJS.",
 		"story.p2":
-			"Me especializo en TypeScript, Angular y NestJS, enfocándome en construir aplicaciones escalables y mantenibles. Creo en escribir código limpio, seguir las mejores prácticas y aprender constantemente nuevas tecnologías para mantenerme a la vanguardia en este campo en constante evolución.",
+			"Me importa profundamente el código confiable—testeo primero, pienso en casos extremos, y me aseguro de que todo funcione como se espera. Pero más que \"código limpio\", me enfoco en resolver problemas reales: hacer apps rápidas, fáciles de usar y mantenibles para que el equipo después de mí no maldiga mi nombre.",
+		"story.p3":
+			"He aprendido que el mejor código es uno que sirve un propósito. Así que hago preguntas, entiendo por qué estamos construyendo algo, y valido que realmente resuelve el problema de quienes lo usan.",
 		"skills.title": "Lo Que Hago",
 		"skills.frontend.title": "Desarrollo Frontend",
 		"skills.frontend.description":
