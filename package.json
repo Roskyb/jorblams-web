@@ -2,6 +2,7 @@
 	"name": "jorblams-web",
 	"description": "Personal portfolio and blog with i18n support built with Astro v5",
 	"version": "3.0.0",
+	"type": "module",
 	"private": false,
 	"license": "MIT",
 	"engines": {
